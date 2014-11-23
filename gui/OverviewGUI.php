@@ -14,6 +14,7 @@ function showOverviewGui($message) {
 	<?php getHeadTags(); ?>
 </head>
 <body>
+<?php getHeader(); ?>
 <div class="container">
 	<h1 class="page-header">Übersicht - Verwaltung</h1>
 <?php
