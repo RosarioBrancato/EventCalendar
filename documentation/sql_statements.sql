@@ -1,0 +1,1 @@
+insert into tbl_user(username, password) values ("admin", MD5("admin"));
