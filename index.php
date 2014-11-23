@@ -1,5 +1,7 @@
 ﻿<?php
+	
 	include_once('constant/constants.php');
 	
-	header('Location: ' . URL . 'domain/PriceBracket.php');
+	//redirect
+	header('Location: ' . URL . 'domain/LogIn.php');
 ?>

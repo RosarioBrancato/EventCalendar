@@ -1,5 +1,9 @@
 ﻿<?php
 
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
+
 	function getPriceBrackets() {
 		$values = array();
 		$values[] = new PriceBracketBO(1, 'Students', 5.5);

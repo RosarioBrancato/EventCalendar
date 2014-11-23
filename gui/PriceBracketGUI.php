@@ -12,7 +12,6 @@ function showPriceBracketGui($data, $message) {
 		$name = $data->getName();
 		$price  = $data->getPrice();
 	}
-	
 ?>
 <html>
 <head>
@@ -35,8 +34,12 @@ function showPriceBracketGui($data, $message) {
 		<p><input type="submit" class="btn btn-default" name="price_bracket_save" value="Speichern"/></p>
 		<p><input type="submit" class="btn btn-default" name="price_bracket_delete" value="Löschen"/></p>
 	</form>
+	
+	<form action="../domain/LogOut.php" method="post">
+		<input type="submit" class="btn btn-default" name="log_out" value="Abmelden" />
+	</form>
 </div>
 </body>
 <?php
-}
+	}
 ?>

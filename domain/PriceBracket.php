@@ -1,4 +1,9 @@
 ﻿<?php
+	
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
+
 	include_once('../constant/Constants.php');
 	include_once('../bo/PriceBracketBO.php');
 	include_once('../bo/MessageBO.php');
@@ -7,16 +12,23 @@
 
 	$message = null;
 	
-	if(isset($_POST['price_bracket_save'])) {
-		$message = new MessageBO('Preisgruppe wurde gespeichert!', MESSAGE_TYPE_SUCCESS);
+	if(isset($_SESSION['user_id'])) {
+		if(isset($_POST['price_bracket_save'])) {
+			$message = new MessageBO('Preisgruppe wurde gespeichert!', MESSAGE_TYPE_SUCCESS);
+			
+		} else if(isset($_POST['price_bracket_delete'])) {
+			$message = new MessageBO('Preisgruppe wurde gelöscht!', MESSAGE_TYPE_WARNING);;
+			
+		} 
 		
-	} else if(isset($_POST['price_bracket_delete'])) {
-		$message = new MessageBO('Preisgruppe wurde gelöscht!', MESSAGE_TYPE_WARNING);;
+		//load data
+		$data = getPriceBracket();
+		//show gui
+		showPriceBracketGui($data, $message);
 		
-	} 
-	
-	//load data
-	$data = getPriceBracket();
-	//show gui
-	showPriceBracketGui($data, $message);
+	} else {
+		//redirect
+		header('Location: ' . URL . 'domain/LogIn.php');
+		exit;
+	}
 ?>
