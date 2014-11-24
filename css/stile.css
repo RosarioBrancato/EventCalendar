@@ -3,9 +3,21 @@
 	padding: 0px;
 }
 
+.no-margin {
+	margin: 0px;
+}
+
 .navbar-custom {
 	background-color: #337AB7;
 	color: white;
+}
+
+.sidebar-text {
+	font-size: 20px;
+}
+
+.table > tbody > tr > td {
+    vertical-align: middle;
 }
 
 /*My own stuff*/

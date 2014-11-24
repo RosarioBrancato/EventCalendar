@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	
 	if (session_status() == PHP_SESSION_NONE) {
 		session_start();
@@ -17,8 +17,7 @@
 			$message = new MessageBO('Preisgruppe wurde gespeichert!', MESSAGE_TYPE_SUCCESS);
 			
 		} else if(isset($_POST['price_bracket_delete'])) {
-			$message = new MessageBO('Preisgruppe wurde gelöscht!', MESSAGE_TYPE_WARNING);;
-			
+			$message = new MessageBO('Preisgruppe wurde gelöscht!', MESSAGE_TYPE_WARNING);
 		} 
 		
 		//load data

@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 	include_once('../constant/Constants.php');
 	include_once('../bo/PriceBracketBO.php');
