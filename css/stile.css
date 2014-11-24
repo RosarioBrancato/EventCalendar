@@ -1,0 +1,20 @@
+/*Bootstrap edit*/
+.no-padding {
+	padding: 0px;
+}
+
+.navbar-custom {
+	background-color: #337AB7;
+	color: white;
+}
+
+/*My own stuff*/
+.logo {
+	color: white;
+	font-size: 36px;
+}
+
+.logo:hover {
+	color: orange;
+	text-decoration: none;
+}

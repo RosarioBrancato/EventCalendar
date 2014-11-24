@@ -1,23 +1,16 @@
 ﻿<?php
 
-include('GeneralTags.php');
+include_once('GeneralTags.php');
 
 function showPriceBracketGui($data, $message) {
-	$id = 0;
-	$name = '';
-	$price = 0;
 	
-	if($data != null) {
-		$id = $data->getId();
-		$name = $data->getName();
-		$price  = $data->getPrice();
-	}
 ?>
 <html>
 <head>
 	<?php getHeadTags(); ?>
 </head>
 <body>
+<?php getHeader(); ?>
 <div class="container">
 	<h1 class="page-header">Preisgruppen</h1>
 <?php
@@ -27,19 +20,31 @@ function showPriceBracketGui($data, $message) {
 <?php
 	}
 ?>
-	<form method="post" action="../domain/PriceBracket.php">
-		<input type="hidden" name="id" value="<?php echo $id; ?>" />
-		<div class="form-inline">Name: <input type="text" class="form-control" name="name" value="<?php echo $name; ?>"/></div>
-		<div class="form-inline">Preis: <input type="number" class="form-control" name="price" value="<?php echo $price; ?>"/></div>
-		<p><input type="submit" class="btn btn-default" name="price_bracket_save" value="Speichern"/></p>
-		<p><input type="submit" class="btn btn-default" name="price_bracket_delete" value="Löschen"/></p>
-	</form>
+	<table class="table table-hover">
+		<tr>
+			<th>Name</th>
+			<th>Preis</th>
+		</tr>
+<?php
+	if($data != null) {
+		foreach($data as $bo) {
+			echo '<tr>';
+			echo '	<td>' . $bo->getName() . '</td>';
+			echo '	<td>' . $bo->getPrice() . '</td>';
+			echo '</tr>';
+		}
+	} else {
+		echo '<tr>';
+		echo '	<td>Keine Einträge</td>';
+		echo '	<td></td>';
+		echo '</tr>';
+	}
+?>
+	</table>
 	
-	<form action="../domain/LogOut.php" method="post">
-		<input type="submit" class="btn btn-default" name="log_out" value="Abmelden" />
-	</form>
 </div>
 </body>
+</html>
 <?php
-	}
+}
 ?>

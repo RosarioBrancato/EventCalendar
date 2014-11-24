@@ -1,43 +1,52 @@
 <?php function getHeadTags() { ?>
 	<!--Meta-->
 	<meta charset="utf-8">
-	<meta name="author" content="Rosario Brancato" />
+	<meta name="author" content="Rosario Brancato">
 	
 	<!--Google jQuery csn-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
 	<!-- Optional theme -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" />
 	<!-- Latest compiled and minified JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 	
+	<!--My CSS-->
+	<link rel="stylesheet" href="../css/stile.css" type="text/css" />
+	
 	<!--Titel-->
 	<title>Event-Kalender</title>
-<?php } ?>
-
-<?php
+<?php 
+}
+ 
     function getHeader() {
 ?>
-        <header class="container-fluid bg-primary">
-            <div class="container row  center-block">
-                <div class="col-sm-9">
-                        <h2><a class="text-warning" href="../index.php"><strong>Event-Kalender</strong></a></h2> 
-                </div>
-                <div class="col-sm-3">
+        <nav class="navbar navbar-custom" role="navigation">
+            <div class="container">
+				<div class="navbar-header">
+					<a class="navbar-brand logo" href="../index.php"><strong>Event-Kalender</strong></a>
+				</div>	
 <?php
         if(isset($_SESSION['username'])) {
 ?>
-                    <form method="post" action="../domain/LogOut.php" class="form-inline" role="form">
-						<h3>Hallo <?php echo $_SESSION['username']; ?>
-						<input type="submit" class="btn btn-warning" name="log_out" value="Abmelden"/></h3>
-					</form>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li>
+							<p class="navbar-text">Hallo <?php echo $_SESSION['username']; ?></p>
+						</li>
+						<li>
+							<form method="post" action="../domain/LogOut.php" class="navbar-form">
+								<input type="submit" class="btn btn-warning" name="log_out" value="Abmelden"/>
+							</form>
+						</li>
+					</ul>
+				</div>
 <?php
         }
 ?>
-                </div>
-            </div>
-        </header>
+			</div>
+        </nav>
 <?php  
     }
 ?>

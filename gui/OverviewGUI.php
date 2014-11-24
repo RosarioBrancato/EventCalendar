@@ -27,10 +27,6 @@ function showOverviewGui($message) {
 	<a href="#">Veranstaltungen</a>
 	<a href="../domain/PriceBracket.php">Preisgruppen</a>
 	<a href="#">Genres</a>
-
-	<form action="../domain/LogOut.php" method="post">
-		<input type="submit" class="btn btn-default" name="log_out" value="Abmelden" />
-	</form>
 </div>
 </body>
 <?php

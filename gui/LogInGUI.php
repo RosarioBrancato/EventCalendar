@@ -15,6 +15,7 @@ function showLogInGui($data, $message) {
 	<?php getHeadTags(); ?>
 </head>
 <body>
+<?php getHeader(); ?>
 <div class="container">
 	<h1 class="page-header">Anmelden</h1>
 <?php

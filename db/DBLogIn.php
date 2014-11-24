@@ -30,10 +30,8 @@
 			$stmt->fetch();
 			
 			if($username === $db_username && $password === $db_password) {
-				$_SESSION['db_user'] = 'root';
 				$_SESSION['user_id'] =  $db_user_id;
 				$_SESSION['username'] = $db_username;
-				$_SESSION['password'] = $db_password;
 				$success = TRUE;
 				$message = new MessageBO('Anmeldung erfolgreich! Willkommen ' . $db_username . '!', MESSAGE_TYPE_SUCCESS);
 			

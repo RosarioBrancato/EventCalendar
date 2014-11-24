@@ -22,7 +22,7 @@
 		} 
 		
 		//load data
-		$data = getPriceBracket();
+		$data = getPriceBrackets();
 		//show gui
 		showPriceBracketGui($data, $message);
 		
