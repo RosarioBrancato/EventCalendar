@@ -2,7 +2,7 @@
 
 include_once('GeneralTags.php');
 
-function showPriceBracketAlterGui($modus, $data, $message) {
+function showPriceBracketAlterGui($mode, $data, $message) {
 	$id = 0;
 	$name = '';
 	$price = 0;
@@ -34,7 +34,7 @@ function showPriceBracketAlterGui($modus, $data, $message) {
 	}
 ?>
 			<form method="post" action="../domain/PriceBracket.php">
-				<input type="hidden" name="modus" value="<?php echo $modus; ?>" />
+				<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 				<input type="hidden" name="id" value="<?php echo $id; ?>" />
 				<table class="table">
 					<tr>
@@ -42,7 +42,7 @@ function showPriceBracketAlterGui($modus, $data, $message) {
 							Name:
 						</td>
 						<td class="col-sm-4 no-padding">
-							<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" required/>
+							<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 						</td>
 						<td class="col-sm-6"></td>
 					</tr>
@@ -51,16 +51,33 @@ function showPriceBracketAlterGui($modus, $data, $message) {
 							Preis:
 						</td>
 						<td class="col-sm-4">
-							<input type="number" class="form-control" name="price" value="<?php echo $price; ?>" required/>
+							<input type="number" class="form-control" name="price" step="0.05" value="<?php echo $price; ?>" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 						</td>
 						<td class="col-sm-6"></td>
 					</tr>
 					<tr>
-						<td class="col-sm-2"></td>
+						<td class="col-sm-2 text-right"><?php if($mode === MODE_DELETE){ echo 'Wirklich löschen?'; } ?></td>
 						<td class="col-sm-4 col-sm-offset-2">
 							<p>
+<?php 						
+							if ($mode === MODE_NEW) {
+?>
+								<input type="submit" class="btn btn-success" name="price_bracket_save" value="Speichern"/>
+								<!--<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Abbrechen"/>-->
+								<a class="btn btn-danger" href="../domain/PriceBracket.php">Abbrechen</a>
+<?php 						
+							} else if($mode === MODE_EDIT) {
+?>
 								<input type="submit" class="btn btn-success" name="price_bracket_save" value="Speichern"/>
 								<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Abbrechen"/>
+<?php
+							} else if($mode === MODE_DELETE) {
+?>
+								<input type="submit" class="btn btn-success" name="price_bracket_save" value="Ja"/>
+								<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Nein"/>
+<?php 						
+							}
+?>
 							</p>
 						</td>
 						<td class="col-sm-6"></td>

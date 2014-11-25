@@ -46,7 +46,7 @@ function showPriceBracketGui($data, $message) {
 					<td class="col-sm-3"></td>
 					<td class="col-sm-4">
 						<form action="../domain/PriceBracket.php" method="post" class="no-margin">
-							<input type="hidden" name="price_bracket_id" value="<?php echo $bo->getId(); ?>" />
+							<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
 							<input type="submit" class="btn btn-info" name="price_bracket_edit" value="Bearbeiten" />
 							<input type="submit" class="btn btn-danger" name="price_bracket_delete" value="Löschen" />
 						</form>

@@ -17,26 +17,45 @@
 		if(isset($_POST['price_bracket_new'])) {
 			//NEW
 			//show gui
-			showPriceBracketAlterGui(MODUS_NEW, null, null);
+			showPriceBracketAlterGui(MODE_NEW, null, null);
 			
 		} else if(isset($_POST['price_bracket_edit'])) {
 			//EDIT
 			//load price bracket
 			$data = getPriceBracket($_POST['id']);
 			//show gui
-			showPriceBracketAlterGui(MODUS_EDIT, $data, null);
+			showPriceBracketAlterGui(MODE_EDIT, $data, null);
 			
 		} else if(isset($_POST['price_bracket_delete'])) {
 			//DELETE
 			//load price bracket
 			$data = getPriceBracket($_POST['id']);
 			//show gui
-			showPriceBracketAlterGui(MODUS_DELETE, $data, null);
+			showPriceBracketAlterGui(MODE_DELETE, $data, null);
 			
 		} else if(isset($_POST['price_bracket_save'])) {
 			//SAVE
-			//message
-			$message = new MessageBO('Preisgruppe gespeichert!', MESSAGE_TYPE_SUCCESS);
+			//get values
+			$mode = intval($_POST['mode']);
+			$id = intval($_POST['id']);
+			$name = $_POST['name'];
+			$price = floatval($_POST['price']);
+		
+			//manipulate database
+			switch($mode) {
+				case MODE_NEW:
+					$message = insertPriceBracket(new PriceBracketBO($id, $name, $price));
+					break;
+					
+				case MODE_EDIT:
+					$message = updatePriceBracket(new PriceBracketBO($id, $name, $price));
+					break;
+					
+				case MODE_DELETE:
+					$message = deletePriceBracket($id);
+					break;
+			}
+			
 			//load data
 			$data = getPriceBrackets();
 			//show gui
