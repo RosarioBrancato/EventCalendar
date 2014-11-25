@@ -16,4 +16,9 @@
 	define('NAVBAR_SELECTION_PERFORMANCE', 3);
 	define('NAVBAR_SELECTION_LINK', 4);
 	
+	//Bearbeitung
+	define('MODUS_NEW', 0);
+	define('MODUS_EDIT', 1);
+	define('MODUS_DELETE', 2);
+	
 ?>

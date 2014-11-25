@@ -18,6 +18,7 @@
 
 .table > tbody > tr > td {
     vertical-align: middle;
+	border: 0px;
 }
 
 /*My own stuff*/
@@ -29,4 +30,14 @@
 .logo:hover {
 	color: orange;
 	text-decoration: none;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+input[type=number] {
+    -moz-appearance:textfield;
 }

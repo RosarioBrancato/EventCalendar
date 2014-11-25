@@ -26,7 +26,7 @@ function showPriceBracketGui($data, $message) {
 <?php
 		}
 ?>
-			<form action="../domain/PriceBracketAlter.php" method="post">
+			<form action="../domain/PriceBracket.php" method="post">
 				<p><input type="submit" class="btn btn-success" name="price_bracket_new" value="Neue Preisgruppe erfassen" /></p>
 			</form>
 			<table class="table table-hover">
@@ -45,8 +45,8 @@ function showPriceBracketGui($data, $message) {
 					<td class="col-sm-2 text-right"><?php echo $bo->getPrice(); ?></td>
 					<td class="col-sm-3"></td>
 					<td class="col-sm-4">
-						<form action="../domain/PriceBracketAlter.php" method="post" class="no-margin">
-							<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
+						<form action="../domain/PriceBracket.php" method="post" class="no-margin">
+							<input type="hidden" name="price_bracket_id" value="<?php echo $bo->getId(); ?>" />
 							<input type="submit" class="btn btn-info" name="price_bracket_edit" value="Bearbeiten" />
 							<input type="submit" class="btn btn-danger" name="price_bracket_delete" value="Löschen" />
 						</form>

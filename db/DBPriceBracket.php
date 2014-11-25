@@ -33,7 +33,31 @@
 		return $values;
 	}
 	
-	function getPriceBracket() {
-		return new PriceBracketBO(1, 'Students', 5.5);
+	function getPriceBracket($id) {
+		$bo = null;
+		
+		$connection = getConnection();
+		
+		$stmt = $connection->prepare('SELECT id, name, price FROM tbl_price_bracket WHERE id = ?');
+		if($stmt !== FALSE) {
+			$stmt->bind_param('i', $id);
+			$stmt->execute();
+			
+			$id;
+			$name;
+			$price;
+			
+			$stmt->bind_result($id, $name, $price);
+			
+			while($stmt->fetch()) {
+				$bo = new PriceBracketBO($id, $name, $price);
+			}
+			
+			$stmt->close();
+		}
+		
+		$connection->close();
+		
+		return $bo;	
 	}
 ?>
