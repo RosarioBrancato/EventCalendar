@@ -38,26 +38,26 @@ function showPriceBracketAlterGui($mode, $data, $message) {
 				<input type="hidden" name="id" value="<?php echo $id; ?>" />
 				<table class="table">
 					<tr>
-						<td class="col-sm-2 text-right">
+						<td class="col-sm-2 text-right no-border">
 							Name:
 						</td>
-						<td class="col-sm-4 no-padding">
-							<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+						<td class="col-sm-4 no-border">
+							<input type="text" class="form-control" name="name" value="<?php echo $name; ?>" required="required" maxlength="50" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 						</td>
-						<td class="col-sm-6"></td>
+						<td class="col-sm-6 no-border"></td>
 					</tr>
 					<tr>
-						<td class="col-sm-2 text-right">
+						<td class="col-sm-2 text-right no-border">
 							Preis:
 						</td>
-						<td class="col-sm-4">
-							<input type="number" class="form-control" name="price" step="0.05" value="<?php echo $price; ?>" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+						<td class="col-sm-4 no-border">
+							<input type="number" class="form-control" name="price" min="0" max="900" step="0.05" value="<?php echo $price; ?>" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 						</td>
-						<td class="col-sm-6"></td>
+						<td class="col-sm-6 no-border"></td>
 					</tr>
 					<tr>
-						<td class="col-sm-2 text-right"><?php if($mode === MODE_DELETE){ echo 'Wirklich löschen?'; } ?></td>
-						<td class="col-sm-4 col-sm-offset-2">
+						<td class="col-sm-2 text-right no-border"><?php if($mode === MODE_DELETE){ echo 'Wirklich löschen?'; } ?></td>
+						<td class="col-sm-4 no-border">
 							<p>
 <?php 						
 							if ($mode === MODE_NEW) {
@@ -69,18 +69,18 @@ function showPriceBracketAlterGui($mode, $data, $message) {
 							} else if($mode === MODE_EDIT) {
 ?>
 								<input type="submit" class="btn btn-success" name="price_bracket_save" value="Speichern"/>
-								<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Abbrechen"/>
+								<a class="btn btn-danger" href="../domain/PriceBracket.php">Abbrechen</a>
 <?php
 							} else if($mode === MODE_DELETE) {
 ?>
 								<input type="submit" class="btn btn-success" name="price_bracket_save" value="Ja"/>
-								<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Nein"/>
+								<a class="btn btn-danger" href="../domain/PriceBracket.php">Nein</a>
 <?php 						
 							}
 ?>
 							</p>
 						</td>
-						<td class="col-sm-6"></td>
+						<td class="col-sm-6 no-border"></td>
 					</tr>
 				</table>
 			</form>

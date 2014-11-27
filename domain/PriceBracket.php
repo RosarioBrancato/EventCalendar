@@ -61,15 +61,6 @@
 			//show gui
 			showPriceBracketGui($data, $message);
 			
-		} else if(isset($_POST['price_bracket_cancel'])) {
-			//CANCEL
-			//message
-			$message = new MessageBO('Bearbeitung abgebrochen.', MESSAGE_TYPE_INFO);
-			//load data
-			$data = getPriceBrackets();
-			//show gui
-			showPriceBracketGui($data, $message);
-			
 		} else {
 			//DEFAULT
 			//load data

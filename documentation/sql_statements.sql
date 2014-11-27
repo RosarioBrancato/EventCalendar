@@ -18,4 +18,4 @@ grant insert, update, delete on event_calendar.tbl_genre to moderator@localhost;
 
 --Data
 --In tbl_user
-insert into tbl_user (username, password) values ("admin", MD5("admin"));
+insert into tbl_user (username, password) values ("Moderator", MD5("1234"));

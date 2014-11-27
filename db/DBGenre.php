@@ -1,27 +1,26 @@
 <?php
 
 	include_once('../constant/Constants.php');
-	include_once('../bo/PriceBracketBO.php');
+	include_once('../bo/GenreBO.php');
 	include_once('../bo/MessageBO.php');
 	include_once('DBConnection.php');
 
-	function getPriceBrackets() {
+	function getGenres() {
 		$values = array();
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, price FROM tbl_price_bracket ORDER BY name');
+		$stmt = $connection->prepare('SELECT id, name FROM tbl_genre ORDER BY name');
 		if($stmt !== FALSE) {
 			$stmt->execute();
 			
 			$id;
 			$name;
-			$price;
 			
-			$stmt->bind_result($id, $name, $price);
+			$stmt->bind_result($id, $name);
 			
 			while($stmt->fetch()) {
-				$values[$id] = new PriceBracketBO($id, $name, $price);
+				$values[$id] = new GenreBO($id, $name);
 			}
 			
 			$stmt->close();
@@ -33,24 +32,23 @@
 		return $values;
 	}
 	
-	function getPriceBracket($id) {
+	function getGenre($id) {
 		$bo = null;
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, price FROM tbl_price_bracket WHERE id = ?');
+		$stmt = $connection->prepare('SELECT id, name FROM tbl_genre WHERE id = ?');
 		if($stmt !== FALSE) {
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
 			
 			$id;
 			$name;
-			$price;
 			
-			$stmt->bind_result($id, $name, $price);
+			$stmt->bind_result($id, $name);
 			
 			while($stmt->fetch()) {
-				$bo = new PriceBracketBO($id, $name, $price);
+				$bo = new GenreBO($id, $name);
 			}
 			
 			$stmt->close();
@@ -61,7 +59,7 @@
 		return $bo;	
 	}
 	
-	function insertPriceBracket($bo) {
+	function insertGenre($bo) {
 		if($bo == null || $bo->getId() > 0) {
 			return new MessageBO('Beim Speichern ist ein Fehler aufgetreten. Bitte versuche es erneut.', MESSAGE_TYPE_DANGER);
 		}
@@ -71,12 +69,12 @@
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('INSERT INTO tbl_price_bracket (name, price) VALUES ( ?, ?)');
+		$stmt = $connection->prepare('INSERT INTO tbl_genre (name) VALUES (?)');
 		if($stmt !== FALSE) {
-			$stmt->bind_param('ss', $bo->getName(), $bo->getPrice());
+			$stmt->bind_param('s', $bo->getName());
 			$success = $stmt->execute();
 			if($success) {
-				$message = new MessageBO('Die Preisgruppe wurde erfolgreich gespeichert!', MESSAGE_TYPE_SUCCESS);
+				$message = new MessageBO('Das Genre wurde erfolgreich gespeichert!', MESSAGE_TYPE_SUCCESS);
 			}
 			$stmt->close();
 		} else {
@@ -88,7 +86,7 @@
 		return $message;	
 	}
 	
-	function updatePriceBracket($bo) {
+	function updateGenre($bo) {
 		if($bo == null || $bo->getId() <= 0) {
 			return new MessageBO('Beim Speichern ist ein Fehler aufgetreten. Bitte versuche es erneut.', MESSAGE_TYPE_DANGER);
 		}
@@ -98,12 +96,12 @@
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('UPDATE tbl_price_bracket SET name = ?, price = ? WHERE id = ?');
+		$stmt = $connection->prepare('UPDATE tbl_genre SET name = ? WHERE id = ?');
 		if($stmt !== FALSE) {
-			$stmt->bind_param('ssi', $bo->getName(), $bo->getPrice(), $bo->getId());
+			$stmt->bind_param('si', $bo->getName(), $bo->getId());
 			$success = $stmt->execute();
 			if($success) {
-				$message = new MessageBO('Die Preisgruppe wurde erfolgreich gespeichert!', MESSAGE_TYPE_SUCCESS);
+				$message = new MessageBO('Das Genre wurde erfolgreich gespeichert!', MESSAGE_TYPE_SUCCESS);
 			}
 			$stmt->close();
 		} else {
@@ -115,7 +113,7 @@
 		return $message;	
 	}
 	
-	function deletePriceBracket($id) {
+	function deleteGenre($id) {
 		$message = null;
 		$success = FALSE;
 		
@@ -125,19 +123,19 @@
 		}
 		
 		//is price bracket used
-		$message = isPriceBracketUsed($id);
+		$message = isGenreUsed($id);
 		if($message != null) {
 			return $message;
 		}
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('DELETE FROM tbl_price_bracket WHERE id = ?');
+		$stmt = $connection->prepare('DELETE FROM tbl_genre WHERE id = ?');
 		if($stmt !== FALSE) {
 			$stmt->bind_param('i', $id);
 			$success = $stmt->execute();
 			if($success) {
-				$message = new MessageBO('Die Preisgruppe wurde erfolgreich gelöscht!', MESSAGE_TYPE_SUCCESS);
+				$message = new MessageBO('Das Genre wurde erfolgreich gelöscht!', MESSAGE_TYPE_SUCCESS);
 			}
 			$stmt->close();
 		} else {
@@ -149,12 +147,12 @@
 		return $message;	
 	}
 	
-	function isPriceBracketUsed($id) {
+	function isGenreUsed($id) {
 		$message = null;
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT COUNT(price_bracket_id) FROM tbl_event_price WHERE price_bracket_id = ?');
+		$stmt = $connection->prepare('SELECT COUNT(id) FROM tbl_event WHERE genre_id = ?');
 		if($stmt !== FALSE) {
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
@@ -165,7 +163,7 @@
 			$stmt->fetch();
 			
 			if($count > 0) {
-				$message = new MessageBO('Die Preisgruppe ist an eine oder mehreren Veranstaltung/en gebunden und kann deshalb nicht gelöscht werden.', MESSAGE_TYPE_WARNING);
+				$message = new MessageBO('Das Genre ist an eine oder mehreren Veranstaltung/en gebunden und kann deshalb nicht gelöscht werden.', MESSAGE_TYPE_WARNING);
 			}
 			
 			$stmt->close();

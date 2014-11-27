@@ -27,9 +27,15 @@
             <div class="container">
 				<div class="navbar-header">
 					<a class="navbar-brand logo" href="../index.php"><strong>Event-Kalender</strong></a>
+<?php
+				if(isset($_SESSION['username'])) {
+?>
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navigationbar">
 					   <span class="icon-bar glyphicon glyphicon-list"></span>
 					</button>
+<?php
+				}	
+?>
 				</div>	
 <?php
         if(isset($_SESSION['username'])) {
@@ -61,7 +67,7 @@
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="../domain/Event.php">Veranstaltungen</a></li>
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PRICE_BRACKET) { echo 'active'; } ?>"><a href="../domain/PriceBracket.php">Preisgruppen</a></li>
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_GENRE) { echo 'active'; } ?>"><a href="../domain/Genre.php">Genre</a></li>
-			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PERFORMANCE) { echo 'active'; } ?>"><a href="../domain/Genre.php">Vorstellungen</a></li>    				
+			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PERFORMANCE) { echo 'active'; } ?>"><a href="../domain/Performance.php">Vorstellungen</a></li>    				
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_LINK) { echo 'active'; } ?>"><a href="../domain/Link.php">Links</a></li>
 		</ul>
 		<ul class="nav nav-pills nav-stacked">

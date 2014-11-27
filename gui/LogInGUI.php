@@ -25,11 +25,36 @@ function showLogInGui($data, $message) {
 <?php
 	}
 ?>
-	<form method="post" action="../domain/LogIn.php">
-		<div class="form-inline">Benutzername: <input type="text" class="form-control" name="username" value="<?php echo $username; ?>" required/></div>
-		<div class="form-inline">Passwort: <input type="password" class="form-control" name="password" value="" required/></div>
-		<p><input type="submit" class="btn btn-default" name="log_in" value="Anmelden"/></p>
+	<form action="../domain/LogIn.php" method="post">
+		<table class="table">
+			<tr>
+					<td class="col-sm-2 text-right no-border">
+						Benutzername:
+					</td>
+					<td class="col-sm-4 no-border">
+						<input type="text" class="form-control" name="username" value="<?php echo $username; ?>" maxlength="20" required/>
+					</td>
+					<td class="col-sm-6 no-border"></td>
+			</tr>
+			<tr>
+					<td class="col-sm-2 text-right no-border">
+						Passwort:
+					</td>
+					<td class="col-sm-4 no-border">
+						<input type="password" class="form-control" name="password" value="" required maxlength="32"/>
+					</td>
+					<td class="col-sm-6 no-border"></td>
+			</tr>
+			<tr>
+					<td class="col-sm-2 no-border"></td>
+					<td class="col-sm-4 no-border">
+						<input type="submit" class="btn btn-default" name="log_in" value="Anmelden"/>
+					</td>
+					<td class="col-sm-6 no-border"></td>
+			</tr>
+		</table>
 	</form>
+	
 </div>
 </body>
 <?php
