@@ -12,7 +12,7 @@
 	
 	if(isset($_SESSION['user_id'])) {
 		//redirect
-		header('Location: ' . URL . 'domain/Overview.php');
+		header('Location: ' . URL . 'domain/Event.php');
 		exit;
 	
 	} else if(isset($_POST['log_in'])) {
@@ -31,7 +31,7 @@
 		}
 		
 		if($message->getType() === MESSAGE_TYPE_SUCCESS) {
-			header('Location: ' . URL . 'domain/Overview.php');
+			header('Location: ' . URL . 'domain/Event.php');
 			exit;
 			
 		} else {

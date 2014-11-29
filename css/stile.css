@@ -1,4 +1,8 @@
 /*Bootstrap's edits*/
+textarea {
+	resize: none;
+}
+
 .no-padding {
 	padding: 0px;
 }
@@ -14,6 +18,11 @@
 
 .sidebar-text {
 	font-size: 20px;
+}
+
+.sidebar-group {
+	margin-top: 15px;
+	margin-bottom:  15px;
 }
 
 .table > tbody > tr > td {
