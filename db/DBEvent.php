@@ -10,7 +10,7 @@
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, cast, description, duration, picture, picture_text, genre_id FROM tbl_event ORDER BY name');
+		$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H,%i"), picture, picture_text, genre_id FROM tbl_event ORDER BY name');
 		if($stmt !== FALSE) {
 			$stmt->execute();
 			
@@ -43,7 +43,7 @@
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, cast, description, duration, picture, picture_text, genre_id FROM tbl_event WHERE id = ?');
+		$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H:%i"), picture, picture_text, genre_id FROM tbl_event WHERE id = ?');
 		if($stmt !== FALSE) {
 			$stmt->bind_param('i', $id);
 			$stmt->execute();

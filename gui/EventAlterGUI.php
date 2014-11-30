@@ -79,7 +79,7 @@ function showEventAlterGui($mode, $data, $message, $genres) {
 					<!--DURATION-->
 					<tr>
 						<td class="col-sm-2 text-right no-border">
-							Länge:
+							Länge (HH:MM):
 						</td>
 						<td class="col-sm-4 no-border">
 							<input type="time" class="form-control" name="duration" required="required" value="<?php echo $duration; ?>"  <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
@@ -111,7 +111,7 @@ function showEventAlterGui($mode, $data, $message, $genres) {
 							Genre:
 						</td>
 						<td class="col-sm-4 no-border">
-							<select class="form-control" name="genre_id" required="required" <?php if($mode === MODE_DELETE){ echo 'disabled="disabled"'; } ?> />
+							<select class="form-control" name="genre_id" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 <?php
 						if($genres != null) {
 							foreach($genres as $genre) {
