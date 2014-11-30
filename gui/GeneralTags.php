@@ -66,6 +66,7 @@
 		<ul class="nav nav-pills nav-stacked sidebar-group">
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="../domain/Event.php">Veranstaltungen</a></li>
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_LINK) { echo 'active'; } ?>"><a href="../domain/Link.php">Links</a></li>
+			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PRICING) { echo 'active'; } ?>"><a href="../domain/Pricing.php">Preisangaben</a></li>
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PERFORMANCE) { echo 'active'; } ?>"><a href="../domain/Performance.php">Vorstellungen</a></li>    				
 		</ul>
 		<ul class="nav nav-pills nav-stacked sidebar-group">
