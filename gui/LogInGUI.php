@@ -26,35 +26,30 @@ function showLogInGui($data, $message) {
 	}
 ?>
 	<form action="../domain/LogIn.php" method="post">
-		<table class="table">
-			<tr>
-					<td class="col-sm-2 text-right no-border">
-						Benutzername:
-					</td>
-					<td class="col-sm-4 no-border">
-						<input type="text" class="form-control" name="username" value="<?php echo $username; ?>" maxlength="20" required/>
-					</td>
-					<td class="col-sm-6 no-border"></td>
-			</tr>
-			<tr>
-					<td class="col-sm-2 text-right no-border">
-						Passwort:
-					</td>
-					<td class="col-sm-4 no-border">
-						<input type="password" class="form-control" name="password" value="" required maxlength="32"/>
-					</td>
-					<td class="col-sm-6 no-border"></td>
-			</tr>
-			<tr>
-					<td class="col-sm-2 no-border"></td>
-					<td class="col-sm-4 no-border">
-						<input type="submit" class="btn btn-default" name="log_in" value="Anmelden"/>
-					</td>
-					<td class="col-sm-6 no-border"></td>
-			</tr>
-		</table>
+		<div class="row">
+			<div class="col-sm-2 div-to-block height-fixed">
+				<p class="hidden-xs  p-text-vertical-center text-right">Benutzername</p>
+				<p class="visible-xs p-text-vertical-center">Benutzername</p>
+			</div>
+			<div class="col-sm-4 height-fixed">
+				<input type="text" class="form-control" name="username" value="<?php echo $username; ?>" maxlength="20" required/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-2 div-to-block height-fixed">
+				<p class="hidden-xs  p-text-vertical-center text-right">Passwort</p>
+				<p class="visible-xs p-text-vertical-center">Passwort</p>
+			</div>
+			<div class="col-sm-4 height-fixed">
+				<input type="password" class="form-control" name="password" value="" required maxlength="32"/>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-4 height-fixed col-sm-offset-2">
+				<input type="submit" class="btn btn-default" name="log_in" value="Anmelden"/>
+			</div>
+		</div>
 	</form>
-	
 </div>
 </body>
 <?php

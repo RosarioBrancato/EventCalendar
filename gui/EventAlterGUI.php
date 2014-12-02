@@ -46,114 +46,126 @@ function showEventAlterGui($mode, $data, $message, $genres) {
 			<form method="post" action="../domain/Event.php">
 				<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 				<input type="hidden" name="id" value="<?php echo $id; ?>" />
-				<table class="table">
-					<!--NAME-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Name:
-						</td>
-						<td class="col-sm-4 no-border">
-							<input type="text" class="form-control" name="name" maxlength="100" required="required" value="<?php echo $name; ?>"  <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-					<!--CAST-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Besetzung:
-						</td>
-						<td class="col-sm-4 no-border">
-							<input type="text" class="form-control" name="cast" maxlength="255" value="<?php echo $cast; ?>" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-					<!--DESCRIPTION-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Beschreibung:
-						</td>
-						<td colspan="2" class="col-sm-10 no-border">
-							<textarea class="form-control text-left" name="description" maxlength="1024" rows="5" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> ><?php echo $description; ?></textarea>
-						</td>
-					</tr>
-					<!--DURATION-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Länge (HH:MM):
-						</td>
-						<td class="col-sm-4 no-border">
-							<input type="time" class="form-control" name="duration" required="required" value="<?php echo $duration; ?>"  <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-					<!--PICTURE-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Bild:
-						</td>
-						<td class="col-sm-4 no-border">
-							<input type="file" name="picture" accept="image/png" value="<?php echo $picture; ?>"  <?php if($mode === MODE_DELETE){ echo 'disabled="disabled"'; } ?> />							
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-					<!--PICTURE TEXT-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Bildbeschreibung:
-						</td>
-						<td class="col-sm-4 no-border">
-							<input type="text" class="form-control" name="picture_text" maxlength="255" value="<?php echo $pictureText; ?>" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr><!--GENRE-->
-					<tr>
-						<td class="col-sm-2 text-right no-border">
-							Genre:
-						</td>
-						<td class="col-sm-4 no-border">
-							<select class="form-control" name="genre_id" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+				<div class="row">
+					<div class="col-sm-4 col-sm-offset-2">
+						* müssen ausgefüllt werden
+					</div>
+				</div>
+				<!--NAME-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Name*</p>
+						<p class="visible-xs p-text-vertical-center">Name*</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<input type="text" class="form-control" name="name" maxlength="100" required="required" value="<?php echo $name; ?>"  <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+					</div>
+				</div>
+				<!--CAST-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Besetzung</p>
+						<p class="visible-xs p-text-vertical-center">Besetzung</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<input type="text" class="form-control" name="cast" maxlength="255" value="<?php echo $cast; ?>" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+					</div>
+				</div>
+				<!--DESCRIPTION-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Beschreibung*</p>
+						<p class="visible-xs p-text-vertical-center">Beschreibung*</p>
+					</div>
+					<div class="col-sm-4">
+						<textarea class="form-control" name="description" maxlength="1024" rows="3" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> ><?php echo $description; ?></textarea>
+					</div>
+				</div>
+				<!--DURATION-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Dauer (HH:MM)*</p>
+						<p class="visible-xs p-text-vertical-center">Dauer (HH:MM)*</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<input type="time" class="form-control" name="duration" required="required" value="<?php echo $duration; ?>"  <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+					</div>
+				</div>
+				<!--PICTURE-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Bild</p>
+						<p class="visible-xs p-text-vertical-center">Bild</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<input type="file" name="picture" accept="image/png" value="<?php echo $picture; ?>"  <?php if($mode === MODE_DELETE){ echo 'disabled="disabled"'; } ?> />							
+					</div>
+				</div>
+				<!--PICTURE TEXT-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Bildbeschreibung</p>
+						<p class="visible-xs p-text-vertical-center">Bildbeschreibung</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<input type="text" class="form-control" name="picture_text" maxlength="255" value="<?php echo $pictureText; ?>" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+					</div>
+				</div>
+				<!--GENRE-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+						<p class="hidden-xs  p-text-vertical-center text-right">Genre*</p>
+						<p class="visible-xs p-text-vertical-center">Genre*</p>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<select class="form-control" name="genre_id" required="required" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 <?php
-						if($genres != null) {
-							foreach($genres as $genre) {
+					if($genres != null) {
+						foreach($genres as $genre) {
 ?>
-								<option value="<?php echo $genre->getId(); ?>" <?php if($genre_id == $genre->getId()){ echo 'selected'; } ?>><?php echo $genre->getName(); ?></option>
+							<option value="<?php echo $genre->getId(); ?>" <?php if($genre_id == $genre->getId()){ echo 'selected'; } ?>><?php echo $genre->getName(); ?></option>
 <?php
-							}
+						}
+					}
+?>
+						</select>
+					</div>
+				</div>
+				<!--BUTTONS-->
+				<div class="row">
+					<div class="col-sm-2 div-to-block height-fixed">
+<?php 
+					if($mode === MODE_DELETE){ 
+?>
+						<p class="hidden-xs  p-text-vertical-center text-right">Wirklich löschen?</p>
+						<p class="visible-xs p-text-vertical-center">Wirklich löschen?</p>
+<?php
+					} 
+?>
+					</div>
+					<div class="col-sm-4 height-fixed">
+						<p>
+<?php 						
+						if ($mode === MODE_NEW) {
+?>
+							<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
+							<a class="btn btn-danger" href="../domain/Event.php">Abbrechen</a>
+<?php 						
+						} else if($mode === MODE_EDIT) {
+?>
+							<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
+							<a class="btn btn-danger" href="../domain/Event.php">Abbrechen</a>
+<?php
+						} else if($mode === MODE_DELETE) {
+?>
+							<input type="submit" class="btn btn-success" name="event_save" value="Ja"/>
+							<a class="btn btn-danger" href="../domain/Event.php">Nein</a>
+<?php 						
 						}
 ?>
-							</select>
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-					<!--BUTTONS-->
-					<tr>
-						<td class="col-sm-2 text-right no-border"><?php if($mode === MODE_DELETE){ echo 'Wirklich löschen?'; } ?></td>
-						<td class="col-sm-4 no-border">
-							<p>
-<?php 						
-							if ($mode === MODE_NEW) {
-?>
-								<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
-								<!--<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Abbrechen"/>-->
-								<a class="btn btn-danger" href="../domain/Event.php">Abbrechen</a>
-<?php 						
-							} else if($mode === MODE_EDIT) {
-?>
-								<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
-								<a class="btn btn-danger" href="../domain/Event.php">Abbrechen</a>
-<?php
-							} else if($mode === MODE_DELETE) {
-?>
-								<input type="submit" class="btn btn-success" name="event_save" value="Ja"/>
-								<a class="btn btn-danger" href="../domain/Event.php">Nein</a>
-<?php 						
-							}
-?>
-							</p>
-						</td>
-						<td class="col-sm-6 no-border"></td>
-					</tr>
-				</table>
+						</p>
+					</div>
+				</div>
 			</form>
 		</div>
 	</div>

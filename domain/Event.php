@@ -80,25 +80,25 @@
 				$idError = true;
 			}
 			if(isset($_POST['name']) && strlen(trim($_POST['name'])) > 0) {
-				$name = $_POST['name'];
+				$name = trim($_POST['name']);
 			} else {
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Name" darf nicht leer sein.';
 			}
 			if(isset($_POST['cast'])) {
-				$cast = $_POST['cast'];
+				$cast = trim($_POST['cast']);
 			} else {
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Besetzung" konnte nicht ausgelesen werden. Bitte versuchen sie es erneut.';
 			}
 			if(isset($_POST['description']) && strlen(trim($_POST['description'])) > 0) {
-				$description = $_POST['description'];
+				$description = trim($_POST['description']);
 			} else {
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Beschreibung" darf nicht leer sein.';
 			}
 			if(isset($_POST['duration']) && strlen(trim($_POST['duration'])) > 0) {
-				$duration = formatTime($_POST['duration']);
+				$duration = formatTime(trim($_POST['duration']));
 				//if the formatTime-method returned an empty string, the time was not valid.
 				if(strlen($duration) <= 0) {
 					$isOk = false;
@@ -109,7 +109,7 @@
 				$messageText .= '<br> - Das Feld "Länge" darf nicht leer sein.';
 			}
 			if(isset($_POST['picture_text'])) {
-				$pictureText = $_POST['picture_text'];
+				$pictureText = trim($_POST['picture_text']);
 			} else {
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Bildbeschreibung" konnte nicht ausgelesen werden. Bitte versuchen sie es erneut.';
