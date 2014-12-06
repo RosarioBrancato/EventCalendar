@@ -6,8 +6,14 @@ class GenreBO {
 	private $name = "";
 	
 	public function __construct($id, $name) {
-		$this->id = $id;
-		$this->name = $name;
+		//id
+		if($id != null && is_numeric($id) && $id > 0) {
+			$this->id = $id;
+		}
+		//name
+		if($name != null) {
+			$this->name = $name;
+		}
 	}
 	
 	public function getId() {

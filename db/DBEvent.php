@@ -3,6 +3,9 @@
 	include_once('../constant/Constants.php');
 	include_once('../bo/EventBO.php');
 	include_once('../bo/GenreBO.php');
+	include_once('../bo/LinkBO.php');
+	include_once('../bo/PerformanceBO.php');
+	include_once('../bo/PriceBracketBO.php');
 	include_once('../bo/MessageBO.php');
 	include_once('DBConnection.php');
 
@@ -14,7 +17,7 @@
 		$sql  = 'SELECT e.id, e.name, e.cast, e.description, TIME_FORMAT(e.duration, "%H:%i"), e.picture, e.picture_text,';
 		$sql .= ' g.id, g.name,';
 		$sql .= ' l.id, l.name, l.link,';
-		$sql .= ' p.id, p.date, p.time,';
+		$sql .= ' p.id, DATE_FORMAT(p.date, "%d.%m.%Y"), TIME_FORMAT(p.time, "%H:%i"),';
 		$sql .= ' pb.id, pb.name, pb.price';
 		$sql .= ' FROM tbl_event e';
 		$sql .= ' LEFT JOIN tbl_genre g ON g.id = e.genre_id';
@@ -22,9 +25,8 @@
 		$sql .= ' LEFT JOIN tbl_performance p ON p.event_id = e.id';
 		$sql .= ' LEFT JOIN tbl_event_price ep ON ep.event_id = e.id';
 		$sql .= ' LEFT JOIN tbl_price_bracket pb ON pb.id = ep.price_bracket_id';
-		$sql .= ' ORDER BY e.name, p.date, p.time';
+		$sql .= ' ORDER BY e.name, p.date, p.time, pb.price';
 		
-		//$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H:%i"), picture, picture_text, genre_id FROM tbl_event ORDER BY name');
 		$stmt = $connection->prepare($sql);
 		if($stmt !== FALSE) {
 			$stmt->execute();
@@ -58,6 +60,7 @@
 			$currBO = null;
 			
 			while($stmt->fetch()) {
+				//set event and genre
 				if($id != $currId) {
 					$currId = $id;
 					$currBO = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
@@ -66,6 +69,7 @@
 					$values[$id] = $currBO;
 				}
 				
+				//set link, performance and price bracket
 				if($currBO != null) {
 					//link
 					if($link_id != null && $link_id > 0) {
@@ -74,12 +78,12 @@
 					
 					//performance
 					if($performance_id != null && $performance_id > 0) {
-						$currBO->addLink(new LinkBO($performance_id, $performance_date, $performance_time, $id));
+						$currBO->addPerformance(new PerformanceBO($performance_id, $performance_date, $performance_time, $id));
 					}
 					
 					//price bracket
 					if($price_bracket_id != null && $price_bracket_id > 0) {
-						$currBO->addLink(new PriceBracketBO($price_bracket_id, $price_bracket_name, $price_bracket_price));
+						$currBO->addPriceBracket(new PriceBracketBO($price_bracket_id, $price_bracket_name, $price_bracket_price));
 					}
 				}
 				

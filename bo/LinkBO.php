@@ -8,10 +8,22 @@ class LinkBO {
 	private $event_id = 0;
 	
 	public function __construct($id, $name, $link, $event_id) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->link = $link;
-		$this->event_id = $event_id;
+		//id
+		if($id != null && is_numeric($id) && $id > 0) {
+			$this->id = $id;
+		}
+		//name
+		if($name != null) {
+			$this->name = $name;
+		}
+		//link
+		if($link != null) {
+			$this->link = $link;
+		}
+		//event id
+		if($event_id != null && is_numeric($event_id) && $event_id > 0) {
+			$this->event_id = $event_id;
+		}
 	}
 	
 	public function getId() {

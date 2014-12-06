@@ -8,8 +8,12 @@
 		private $type = MESSAGE_TYPE_SUCCESS;
 	
 		public function __construct($text, $type) {
-			$this->text = $text;
-			$this->type = $type;
+			if($text != null) {
+				$this->text = $text;
+			}
+			if($type != null) {
+				$this->type = $type;
+			}
 		}
 		
 		public function getText() {

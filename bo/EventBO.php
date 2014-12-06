@@ -20,14 +20,38 @@ class EventBO {
 	private $performances = null;
 	
 	public function __construct($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->cast = $cast;
-		$this->description = $description;
-		$this->duration = $duration;
-		$this->picture = $picture;
-		$this->pictureText = $pictureText;
-		$this->genre_id = $genre_id;
+		//id
+		if($id != null && is_numeric($id) && $id > 0) {
+			$this->id = $id;
+		}
+		//name
+		if($name != null) {
+			$this->name = $name;
+		}
+		//cast
+		if($cast != null) {
+			$this->cast = $cast;
+		}
+		//description
+		if($description != null) {
+			$this->description = $description;
+		}
+		//duration
+		if($duration != null) {
+			$this->duration = $duration;
+		}
+		//picture
+		if($picture != null) {
+			$this->picture = $picture;
+		}
+		//pictureText
+		if($pictureText != null) {
+			$this->pictureText = $pictureText;
+		}
+		//genre id
+		if($genre_id != null && is_numeric($genre_id) && $genre_id > 0) {
+			$this->genre_id = $genre_id;
+		}
 	}
 	
 	public function getId() {
@@ -79,13 +103,20 @@ class EventBO {
 	public function addLink($link) {
 		if($link != null) {
 			if($this->links == null) {
-				$this->array();
+				$this->links = array();
 			}
 			
 			if($link->getId() > 0) {
 				$this->links[$link->getId()] = $link;
 			}
 		}
+	}
+	
+	public function getLinks() {
+		if($this->links == null) {
+			$this->links = array();
+		}
+		return $this->links;
 	}
 	
 	//PERFORMANCE
@@ -101,6 +132,13 @@ class EventBO {
 		}
 	}
 	
+	public function getPerformances() {
+		if($this->performances == null) {
+			$this->performances = array();
+		}
+		return $this->performances;
+	}
+	
 	//PRICE BRACKET
 	public function addPriceBracket($priceBracket) {
 		if($priceBracket != null) {
@@ -112,6 +150,13 @@ class EventBO {
 				$this->priceBrackets[$priceBracket->getId()] = $priceBracket;
 			}
 		}
+	}
+	
+	public function getPriceBrackets() {
+		if($this->priceBrackets == null) {
+			$this->priceBrackets = array();
+		}
+		return $this->priceBrackets;
 	}
 	
 }

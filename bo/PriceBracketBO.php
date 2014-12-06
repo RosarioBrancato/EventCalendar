@@ -7,9 +7,18 @@ class PriceBracketBO {
 	private $price = 0;
 	
 	public function __construct($id, $name, $price) {
-		$this->id = $id;
-		$this->name = $name;
-		$this->price = $price;
+		//id
+		if($id != null && is_numeric($id) && $id > 0) {
+			$this->id = $id;
+		}
+		//name
+		if($name != null) {
+			$this->name = $name;
+		}
+		//price
+		if($price != null && is_numeric($price) && $price >= 0) {
+			$this->price = $price;
+		}
 	}
 	
 	public function getId() {

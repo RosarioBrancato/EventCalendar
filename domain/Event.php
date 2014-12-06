@@ -152,7 +152,7 @@
 					
 				} else if($mode == MODE_EDIT && $idError) {
 					//Critical error: Post missed the id of the edited event
-					$message = new MessageBo('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);//load data
+					$message = new MessageBo('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);
 					//show gui
 					loadDefaultEventView($message);
 					

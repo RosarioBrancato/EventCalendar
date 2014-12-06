@@ -8,8 +8,11 @@
 		private $password = '';
 	
 		public function __construct($username, $password) {
-			$this->username = $username;
-			
+			//username
+			if($username != null) {
+				$this->username = $username;
+			}
+			//password
 			if($password != null) {
 				$this->password = md5($password);
 			} else {

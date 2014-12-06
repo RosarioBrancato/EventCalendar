@@ -39,13 +39,15 @@ function showEventGui($data, $message) {
 ?>	
 					<!--event name row-->
 					<div class="row div-bordered-warning">
-						<div class="col-sm-12">
+						<div class="col-sm-9">
 							<h3><?php echo $bo->getName(); ?></h3>
 						</div>
+						
+						
 					</div>
 					<!--event row-->
 					<div class="row">
-						<div class="col-sm-9">
+						<div class="col-sm-12">
 							
 <?php 
 						if(strlen($bo->getCast()) > 0){ 
@@ -111,48 +113,143 @@ function showEventGui($data, $message) {
 								<div class="col-sm-3">
 									Genre:
 								</div>
-								<div class="col-sm-9">
+								<div class="col-sm-6">
 									<?php echo $bo->getGenre()->getName(); ?>
 								</div>
 							</div>
 							
-						</div>
-						<div class="col-sm-3">
-							<form action="../domain/Event.php" method="post" class="no-margin">
-								<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
-								<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
-								<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />
-							</form>
+							<!--buttons-->
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<form action="../domain/Event.php" method="post" class="no-margin">
+										<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
+										<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
+										<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />
+									</form>
+								</div>
+							</div>
+							
 						</div>
 					</div>
 					
 					<!--link row-->
 					<div class="row div-bordered">
-						<div class="col-sm-9">
-							<p>Name</p>
-							<p>Link</p>
-						</div>
-						<div class="col-sm-3">
-							<form action="../domain/Event.php" method="post" class="no-margin">
-								<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
-								<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
-								<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />
-							</form>
+						<div class="col-sm-12">
+							
+							<!--title-->
+							<div class="row">
+								<div class="col-sm-12">
+									<h4>Links</h4>
+								</div>
+							</div>
+<?php
+						foreach($bo->getLinks() as $link) {
+?>
+							<div class="row">
+								<div class="col-sm-3 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $link->getName(); ?></p>
+								</div>
+								<div class="col-sm-6 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $link->getLink(); ?></p>
+								</div>
+								<div class="col-sm-3 text-right">
+									<form action="../domain/Event.php" method="post" class="no-margin">
+										<input type="hidden" name="link_id" value="<?php echo $link->getId(); ?>" />
+										<input type="submit" class="btn btn-info" name="link_edit" value="Bearbeiten" />
+										<input type="submit" class="btn btn-danger" name="link_delete" value="Löschen" />
+									</form>
+								</div>
+							</div>
+<?php
+						}
+?>
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<input type="button" class="btn btn-success" name="link_new" value="Neues Link erfassen">
+								</div>
+							</div>
+						
 						</div>
 					</div>
 					
 					<!--price bracket row-->
 					<div class="row div-bordered">
-						<div class="col-sm-9">
-							<p>Name</p>
-							<p>Price</p>
+						<div class="col-sm-12">
+						
+							<!--title-->
+							<div class="row">
+								<div class="col-sm-12">
+									<h4>Preise</h4>
+								</div>
+							</div>
+<?php
+						foreach($bo->getPriceBrackets() as $priceBracket) {
+?>
+							<div class="row">
+								<div class="col-sm-3 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $priceBracket->getName(); ?></p>
+								</div>
+								<div class="col-sm-6 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $priceBracket->getPrice(); ?> Fr.</p>
+								</div>
+								<div class="col-sm-3 text-right">
+									<form action="../domain/Event.php" method="post" class="no-margin">
+										<input type="hidden" name="event_id" value="<?php echo $id; ?>" />
+										<input type="hidden" name="price_bracket_id" value="<?php echo $priceBracket->getId(); ?>" />
+										<input type="submit" class="btn btn-info" name="event_price_edit" value="Bearbeiten" />
+										<input type="submit" class="btn btn-danger" name="event_price_delete" value="Löschen" />
+									</form>
+								</div>
+							</div>
+<?php
+						}
+?>
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<input type="button" class="btn btn-success" name="link_new" value="Neue Preisgruppe zuweisen">
+								</div>
+							</div>
+						
 						</div>
-						<div class="col-sm-3">
-							<form action="../domain/Event.php" method="post" class="no-margin">
-								<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
-								<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
-								<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />
-							</form>
+					</div>
+
+					<!--performance row-->
+					<div class="row div-bordered">
+						<div class="col-sm-12">
+							
+							<!--title-->
+							<div class="row">
+								<div class="col-sm-12">
+									<h4>Vorstellungen</h4>
+								</div>
+							</div>
+<?php
+						foreach($bo->getPerformances() as $performance) {
+?>
+							<div class="row">
+								<div class="col-sm-3 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $performance->getDate(); ?></p>
+								</div>
+								<div class="col-sm-6 div-to-block height-fixed">
+									<p class="p-text-vertical-center"><?php echo $performance->getTime(); ?></p>
+								</div>
+								<div class="col-sm-3 text-right">
+									<form action="../domain/Event.php" method="post" class="no-margin">
+										<input type="hidden" name="performance_id" value="<?php echo $performance->getId(); ?>" />
+										<input type="submit" class="btn btn-info" name="performance_edit" value="Bearbeiten" />
+										<input type="submit" class="btn btn-danger" name="performance_delete" value="Löschen" />
+									</form>
+								</div>
+							</div>
+<?php
+						}
+?>
+							<div class="row">
+								<div class="col-sm-12 text-right">
+									<input type="button" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
+								</div>
+							</div>
+						
 						</div>
 					</div>
 					

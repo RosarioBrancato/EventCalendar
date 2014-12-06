@@ -8,10 +8,22 @@ class PerformanceBO {
 	private $event_id = 0;
 	
 	public function __construct($id, $date, $time, $event_id) {
-		$this->id = $id;
-		$this->date = $date;
-		$this->time = $time;
-		$this->event_id = $event_id;
+		//id
+		if($id != null && is_numeric($id) && $id > 0) {
+			$this->id = $id;
+		}
+		//date
+		if($date != null) {
+			$this->date = $date;
+		}
+		//time
+		if($time != null) {
+			$this->time = $time;
+		}
+		//event id
+		if($event_id != null && is_numeric($event_id) && $event_id > 0) {
+			$this->event_id = $event_id;
+		}
 	}
 	
 	public function getId() {
