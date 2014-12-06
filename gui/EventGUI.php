@@ -31,9 +31,8 @@ function showEventGui($data, $message) {
 			</form>
 			<table class="table table-hover">
 				<tr>
-					<th class="col-sm-2">Name</th>
-					<th class="col-sm-2">Besetzung</th>
-					<th class="col-sm-5">Beschreibung</th>
+					<th class="col-sm-3">Name</th>
+					<th class="col-sm-6">Beschreibung</th>
 					<th class="col-sm-3">Funktionen</th>
 				</tr>
 <?php
@@ -41,9 +40,8 @@ function showEventGui($data, $message) {
 			foreach($data as $bo) {
 ?>
 				<tr>
-					<td class="col-sm-2"><?php echo $bo->getName(); ?></td>
-					<td class="col-sm-2"><?php echo $bo->getCast(); ?></td>
-					<td class="col-sm-5"><?php echo $bo->getDescription(); ?></td>
+					<td class="col-sm-3"><?php echo $bo->getName(); ?></td>
+					<td class="col-sm-6"><?php echo $bo->getDescription(); ?></td>
 					<td class="col-sm-3">
 						<form action="../domain/Event.php" method="post" class="no-margin">
 							<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
@@ -57,9 +55,8 @@ function showEventGui($data, $message) {
 		} else {
 ?>
 				<tr>
-					<td class="col-sm-2">Keine Einträge</td>
-					<td class="col-sm-2"></td>
-					<td class="col-sm-5"></td>
+					<td class="col-sm-3">Keine Einträge</td>
+					<td class="col-sm-6"></td>
 					<td class="col-sm-3"></td>
 				</tr>
 <?php

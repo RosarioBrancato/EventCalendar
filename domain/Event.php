@@ -10,7 +10,7 @@
 	include_once('../bo/MessageBO.php');
 	include_once('../db/DBEvent.php');
 	include_once('../db/DBGenre.php');
-	include_once('../gui/EventGUI.php');
+	include_once('../gui/EventGUI_2.php');
 	include_once('../gui/EventAlterGUI.php');
 
 	$message = null;

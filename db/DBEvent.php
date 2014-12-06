@@ -2,6 +2,7 @@
 
 	include_once('../constant/Constants.php');
 	include_once('../bo/EventBO.php');
+	include_once('../bo/GenreBO.php');
 	include_once('../bo/MessageBO.php');
 	include_once('DBConnection.php');
 
@@ -10,7 +11,21 @@
 		
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H,%i"), picture, picture_text, genre_id FROM tbl_event ORDER BY name');
+		$sql  = 'SELECT e.id, e.name, e.cast, e.description, TIME_FORMAT(e.duration, "%H:%i"), e.picture, e.picture_text,';
+		$sql .= ' g.id, g.name,';
+		$sql .= ' l.id, l.name, l.link,';
+		$sql .= ' p.id, p.date, p.time,';
+		$sql .= ' pb.id, pb.name, pb.price';
+		$sql .= ' FROM tbl_event e';
+		$sql .= ' LEFT JOIN tbl_genre g ON g.id = e.genre_id';
+		$sql .= ' LEFT JOIN tbl_link l ON l.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_performance p ON p.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_event_price ep ON ep.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_price_bracket pb ON pb.id = ep.price_bracket_id';
+		$sql .= ' ORDER BY e.name, p.date, p.time';
+		
+		//$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H:%i"), picture, picture_text, genre_id FROM tbl_event ORDER BY name');
+		$stmt = $connection->prepare($sql);
 		if($stmt !== FALSE) {
 			$stmt->execute();
 			
@@ -21,12 +36,53 @@
 			$duration;
 			$picture;
 			$pictureText;
-			$genre_id;
 			
-			$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+			$genre_id;
+			$genre_name;
+			
+			$link_id;
+			$link_name;
+			$link_link;
+			
+			$performance_id;
+			$performance_date;
+			$performance_time;
+			
+			$price_bracket_id;
+			$price_bracket_name;
+			$price_bracket_price;
+			
+			$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id, $genre_name, $link_id, $link_name, $link_link, $performance_id, $performance_date, $performance_time, $price_bracket_id, $price_bracket_name, $price_bracket_price);
+			
+			$currId = 0;
+			$currBO = null;
 			
 			while($stmt->fetch()) {
-				$values[$id] = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				if($id != $currId) {
+					$currId = $id;
+					$currBO = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+					$currBO->setGenre(new GenreBO($genre_id, $genre_name));
+					
+					$values[$id] = $currBO;
+				}
+				
+				if($currBO != null) {
+					//link
+					if($link_id != null && $link_id > 0) {
+						$currBO->addLink(new LinkBO($link_id, $link_name, $link_link, $id));
+					}
+					
+					//performance
+					if($performance_id != null && $performance_id > 0) {
+						$currBO->addLink(new LinkBO($performance_id, $performance_date, $performance_time, $id));
+					}
+					
+					//price bracket
+					if($price_bracket_id != null && $price_bracket_id > 0) {
+						$currBO->addLink(new PriceBracketBO($price_bracket_id, $price_bracket_name, $price_bracket_price));
+					}
+				}
+				
 			}
 			
 			$stmt->close();
