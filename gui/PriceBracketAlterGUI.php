@@ -76,7 +76,6 @@ function showPriceBracketAlterGui($mode, $data, $message) {
 						if ($mode === MODE_NEW) {
 ?>
 							<input type="submit" class="btn btn-success" name="price_bracket_save" value="Speichern"/>
-							<!--<input type="submit" class="btn btn-danger" name="price_bracket_cancel" value="Abbrechen"/>-->
 							<a class="btn btn-danger" href="../domain/PriceBracket.php">Abbrechen</a>
 <?php 						
 						} else if($mode === MODE_EDIT) {

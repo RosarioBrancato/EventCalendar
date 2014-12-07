@@ -99,7 +99,7 @@ function showEventGui($data, $message) {
 							<!--picture text row-->
 							<div class="row">
 								<div class="col-sm-3">
-									Bildbeschreibung:
+									Text zum Bild:
 								</div>
 								<div class="col-sm-9">
 									<?php echo $bo->getPictureText(); ?>
@@ -113,7 +113,7 @@ function showEventGui($data, $message) {
 								<div class="col-sm-3">
 									Genre:
 								</div>
-								<div class="col-sm-6">
+								<div class="col-sm-9">
 									<?php echo $bo->getGenre()->getName(); ?>
 								</div>
 							</div>
@@ -153,8 +153,10 @@ function showEventGui($data, $message) {
 									<p class="p-text-vertical-center"><?php echo $link->getLink(); ?></p>
 								</div>
 								<div class="col-sm-3 text-right">
-									<form action="../domain/Event.php" method="post" class="no-margin">
+									<form action="../domain/Link.php" method="post" class="no-margin">
 										<input type="hidden" name="link_id" value="<?php echo $link->getId(); ?>" />
+										<input type="hidden" name="event_id" value="<?php echo $bo->getId(); ?>" />
+										<input type="hidden" name="event_name" value="<?php echo $bo->getName(); ?>" />
 										<input type="submit" class="btn btn-info" name="link_edit" value="Bearbeiten" />
 										<input type="submit" class="btn btn-danger" name="link_delete" value="Löschen" />
 									</form>
@@ -165,7 +167,11 @@ function showEventGui($data, $message) {
 ?>
 							<div class="row">
 								<div class="col-sm-12 text-right">
-									<input type="button" class="btn btn-success" name="link_new" value="Neues Link erfassen">
+									<form action="../domain/Link.php" method="post" class="no-margin">
+										<input type="hidden" name="event_id" value="<?php echo $bo->getId(); ?>" />
+										<input type="hidden" name="event_name" value="<?php echo $bo->getName(); ?>" />
+										<input type="submit" class="btn btn-success" name="link_new" value="Neues Link erfassen" />
+									</form>
 								</div>
 							</div>
 						
@@ -234,7 +240,9 @@ function showEventGui($data, $message) {
 									<p class="p-text-vertical-center"><?php echo $performance->getTime(); ?></p>
 								</div>
 								<div class="col-sm-3 text-right">
-									<form action="../domain/Event.php" method="post" class="no-margin">
+									<form action="../domain/Performance.php" method="post" class="no-margin">
+										<input type="hidden" name="event_id" value="<?php echo $bo->getId(); ?>" />
+										<input type="hidden" name="event_name" value="<?php echo $bo->getName(); ?>" />
 										<input type="hidden" name="performance_id" value="<?php echo $performance->getId(); ?>" />
 										<input type="submit" class="btn btn-info" name="performance_edit" value="Bearbeiten" />
 										<input type="submit" class="btn btn-danger" name="performance_delete" value="Löschen" />
@@ -246,7 +254,10 @@ function showEventGui($data, $message) {
 ?>
 							<div class="row">
 								<div class="col-sm-12 text-right">
-									<input type="button" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
+									<form action="../domain/Performance.php" method="post" class>
+									<input type="hidden" name="event_id" value="<?php echo $bo->getId(); ?>" />
+									<input type="hidden" name="event_name" value="<?php echo $bo->getName(); ?>" />
+									<input type="submit" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
 								</div>
 							</div>
 						

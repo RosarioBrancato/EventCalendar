@@ -13,6 +13,9 @@
 	include_once('../gui/EventGUI_2.php');
 	include_once('../gui/EventAlterGUI.php');
 
+	include_once('Link.php');
+	//include_once('Performance.php');
+	
 	$message = null;
 	
 	if(isset($_SESSION['user_id'])) {
