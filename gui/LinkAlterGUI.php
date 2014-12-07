@@ -42,7 +42,7 @@ function showLinkAlterGui($mode, $data, $message, $event) {
 <?php
 	}
 ?>
-			<form method="post" action="../domain/Event.php">
+			<form method="post" action="../domain/Link.php">
 				<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 				<input type="hidden" name="link_id" value="<?php echo $id; ?>" />
 				<input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />

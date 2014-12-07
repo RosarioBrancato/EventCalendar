@@ -11,6 +11,8 @@
 	include_once('../db/DBLink.php');
 	include_once('../gui/LinkAlterGUI.php');
 
+	include_once('EventMain.php');
+
 	$message = null;
 	
 	if(isset($_SESSION['user_id'])) {

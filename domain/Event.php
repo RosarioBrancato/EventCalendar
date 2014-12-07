@@ -13,7 +13,7 @@
 	include_once('../gui/EventGUI_2.php');
 	include_once('../gui/EventAlterGUI.php');
 
-	include_once('Link.php');
+	//include_once('Link.php');
 	//include_once('Performance.php');
 	
 	$message = null;
@@ -171,6 +171,8 @@
 				}
 			}
 			
+			//if the event is called from outsinde, the default view is
+			//handled from there.
 		} else {
 			//DEFAULT
 			loadDefaultEventView($message);

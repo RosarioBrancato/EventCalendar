@@ -208,4 +208,8 @@
 		return $message;	
 	}
 	
+	function addPriceBracketToEvent($event_id, $price_bracket_id) {
+	
+	}
+	
 ?>
