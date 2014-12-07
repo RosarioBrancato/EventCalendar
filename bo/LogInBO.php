@@ -1,7 +1,5 @@
 <?php
 
-	include_once('../constant/Constants.php');
-	
 	class LogInBO {
 	
 		private $username = '';

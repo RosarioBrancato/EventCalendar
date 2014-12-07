@@ -1,7 +1,7 @@
 ﻿<?php
 	
-	include_once('constant/constants.php');
+	include_once('constant/Constants.php');
 	
-	//redirect
-	header('Location: ' . URL . 'domain/LogIn.php');
+	//redirect to login access point
+	header('Location: ' . URL . 'LogIn.php');
 ?>

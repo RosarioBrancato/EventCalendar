@@ -1,7 +1,5 @@
 <?php
 
-include_once('GenreBO.php');
-
 class EventBO {
 
 	private $id = 0;
