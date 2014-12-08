@@ -2,7 +2,16 @@
 
 include_once('GeneralTags.php');
 
-function showEventOverviewGui($data, $message) {
+function showEventOverviewGui($data) {
+	$message = null;
+	
+	if(isset($_SESSION['message_type']) && isset($_SESSION['message_text'])) {
+		$message  = new MessageBO($_SESSION['message_text'], $_SESSION['message_type']);
+		
+		unset($_SESSION['message_type']);
+		unset($_SESSION['message_text']);
+	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -42,9 +51,9 @@ function showEventOverviewGui($data, $message) {
 					<td class="col-sm-3"><?php echo $bo->getName(); ?></td>
 					<td class="col-sm-6"><?php echo $bo->getDescription(); ?></td>
 					<td class="col-sm-2">
-						<form action="Event.php" method="post" class="no-margin">
-							<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
+						<form action="Event.php" method="get" class="no-margin">
 							<input type="submit" class="btn btn-info" name="event_detail" value="Details" />
+							<input type="hidden" name="e" value="<?php echo $bo->getId(); ?>" />
 						</form>
 					</td>
 				</tr>

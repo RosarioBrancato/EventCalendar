@@ -7,7 +7,17 @@
 	$message = null;
 	
 	if(isset($_SESSION['user_id'])) {
-		if(isset($_POST['event_new'])) {
+	
+		//get db object
+		$dbEvent = new DBEvent();
+		
+		if(isset($_GET['e'])) {
+			//load data
+			$data = $dbEvent->getEvent($_GET['e']);
+			//show gui
+			showEventGui($data);
+		
+		} else if(isset($_POST['event_new'])) {
 			//NEW
 			//show gui
 			//get genres for dropdown
@@ -24,8 +34,8 @@
 			//EDIT
 			//get genres for dropdown
 			$genres = getGenres();
-			//load price bracket
-			$data = getEvent($_POST['id']);
+			//load event
+			$data = $dbEvent->getEvent($_POST['id']);
 			//show gui
 			showEventAlterGui(MODE_EDIT, $data, null, $genres);
 			
@@ -33,8 +43,8 @@
 			//DELETE
 			//get genres for dropdown
 			$genres = getGenres();
-			//load price bracket
-			$data = getEvent($_POST['id']);
+			//load event
+			$data = $dbEvent->getEvent($_POST['id']);
 			//show gui
 			showEventAlterGui(MODE_DELETE, $data, null, $genres);
 			
@@ -114,24 +124,31 @@
 			
 			//get values
 			//$picture = $_POST['picture'];		TO-DO: File-Upload
-		
+			
 			if($isOk) {
 				//manipulate database
 				switch($mode) {
 					case MODE_NEW:
-						$message = insertEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
-						//show all events
-						loadDefaultEventView($message);
+						$message = $dbEvent->insertEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
+						$inserted_id = $dbEvent->getLastUsedId();
+						if($inserted_id > 0) {
+							//show event
+							loadEventDetailView($message, $dbEvent->getLastUsedId());
+							
+						} else {
+							//show all events
+							loadDefaultEventView($message);
+						}
 						break;
 						
 					case MODE_EDIT:
-						$message = updateEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
+						$message = $dbEvent->updateEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
 						//show event
 						loadEventDetailView($message, $id);
 						break;
 						
 					case MODE_DELETE:
-						$message = deleteEvent($id);
+						$message = $dbEvent->deleteEvent($id);
 						//show all events
 						loadDefaultEventView($message);
 						break;
@@ -166,27 +183,28 @@
 				}
 			}
 			
+			//flush post
+			$_POST = array();
+			
 		} else if(isset($_POST['event_cancel'])) {
-			//load data
-			$data = getEvent($_POST['id']);
 			//message
 			$message = new MessageBO('Bearbeitung abgebrochen.', MESSAGE_TYPE_INFO);
 			//show gui
-			showEventGui($data, $message);
+			loadEventDetailView($message, $_POST['id']);
 			
 			//show event detail view
 		} else if(isset($_POST['event_detail'])) {
-			//load data
-			$data = getEvent($_POST['id']);
 			//show gui
-			showEventGui($data, $message);
+			loadEventDetailView($message, $_POST['id']);
 			
 		
 			//if the event is called from outsinde, the default view is
 			//handled from there.
 		} else {
-			//DEFAULT
-			loadDefaultEventView($message);
+			//load data
+			$data = $dbEvent->getEvents();
+			//show gui
+			showEventOverviewGui($data);
 		}
 		
 	} else {

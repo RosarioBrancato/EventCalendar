@@ -33,8 +33,8 @@
 			//event price posts
 		} else if(isset($_POST['event_price_save'])) {
 			
-			//include file
-			//include_once('controller/Event.php');
+			//to event price access point
+			include_once('EventPrice.php');
 			
 			
 		//event posts

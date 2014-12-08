@@ -19,17 +19,23 @@
 	include_once('view/EventAlterGUI.php');
 	
 	function loadDefaultEventView($message) {
-		//load data
-		$data = getEvents();
-		//show gui
-		showEventOverviewGui($data, $message);
+		//save message in session
+		if($message != null) {
+			$_SESSION['message_text'] = $message->getText();
+			$_SESSION['message_type'] = $message->getType();
+		}
+		//redirect to override posts
+		header('Location: ' . URL . 'Event.php');
 	}
 	
 	function loadEventDetailView($message, $event_id) {
-		//load data
-		$data = getEvent($event_id);
-		//show gui
-		showEventGui($data, $message);
+		//save message in session
+		if($message != null) {
+			$_SESSION['message_text'] = $message->getText();
+			$_SESSION['message_type'] = $message->getType();
+		}
+		//redirect to override posts
+		header('Location: ' . URL . 'Event.php?e=' . $event_id);
 	}
 	
 ?>

@@ -30,6 +30,35 @@
 		return $values;
 	}
 	
+	function getPriceBracketsUnassigned($event_id) {
+		$values = array();
+		
+		$connection = getConnection();
+		
+		$stmt = $connection->prepare('SELECT pb.id, pb.name, pb.price FROM tbl_price_bracket LEFT JOIN tbl_event_price ep ON ep.price_bracket_id = pb.id WHERE ep.event_id <> ? ORDER BY name');
+		if($stmt !== FALSE) {
+			$stmt->bind_param('i', $event_id);
+			$stmt->execute();
+			
+			$id;
+			$name;
+			$price;
+			
+			$stmt->bind_result($id, $name, $price);
+			
+			while($stmt->fetch()) {
+				$values[$id] = new PriceBracketBO($id, $name, $price);
+			}
+			
+			$stmt->close();
+		
+		}
+		
+		$connection->close();
+		
+		return $values;	
+	}
+	
 	function getPriceBracket($id) {
 		$bo = null;
 		
