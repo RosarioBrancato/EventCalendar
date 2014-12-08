@@ -92,11 +92,24 @@
 	}
 	
 	function getEvent($id) {
-		$bo = null;
-		
+	
 		$connection = getConnection();
 		
-		$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H:%i"), picture, picture_text, genre_id FROM tbl_event WHERE id = ?');
+		$sql  = 'SELECT e.id, e.name, e.cast, e.description, TIME_FORMAT(e.duration, "%H:%i"), e.picture, e.picture_text,';
+		$sql .= ' g.id, g.name,';
+		$sql .= ' l.id, l.name, l.link,';
+		$sql .= ' p.id, DATE_FORMAT(p.date, "%d.%m.%Y"), TIME_FORMAT(p.time, "%H:%i"),';
+		$sql .= ' pb.id, pb.name, pb.price';
+		$sql .= ' FROM tbl_event e';
+		$sql .= ' LEFT JOIN tbl_genre g ON g.id = e.genre_id';
+		$sql .= ' LEFT JOIN tbl_link l ON l.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_performance p ON p.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_event_price ep ON ep.event_id = e.id';
+		$sql .= ' LEFT JOIN tbl_price_bracket pb ON pb.id = ep.price_bracket_id';
+		$sql .= ' WHERE e.id = ?';
+		$sql .= ' ORDER BY e.name, p.date, p.time, pb.price';
+		
+		$stmt = $connection->prepare($sql);
 		if($stmt !== FALSE) {
 			$stmt->bind_param('i', $id);
 			$stmt->execute();
@@ -108,20 +121,64 @@
 			$duration;
 			$picture;
 			$pictureText;
-			$genre_id;
 			
-			$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+			$genre_id;
+			$genre_name;
+			
+			$link_id;
+			$link_name;
+			$link_link;
+			
+			$performance_id;
+			$performance_date;
+			$performance_time;
+			
+			$price_bracket_id;
+			$price_bracket_name;
+			$price_bracket_price;
+			
+			$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id, $genre_name, $link_id, $link_name, $link_link, $performance_id, $performance_date, $performance_time, $price_bracket_id, $price_bracket_name, $price_bracket_price);
+			
+			$currId = 0;
+			$currBO = null;
 			
 			while($stmt->fetch()) {
-				$bo = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				//set event and genre
+				if($id != $currId) {
+					$currId = $id;
+					$currBO = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+					$currBO->setGenre(new GenreBO($genre_id, $genre_name));
+					
+					$values[$id] = $currBO;
+				}
+				
+				//set link, performance and price bracket
+				if($currBO != null) {
+					//link
+					if($link_id != null && $link_id > 0) {
+						$currBO->addLink(new LinkBO($link_id, $link_name, $link_link, $id));
+					}
+					
+					//performance
+					if($performance_id != null && $performance_id > 0) {
+						$currBO->addPerformance(new PerformanceBO($performance_id, $performance_date, $performance_time, $id));
+					}
+					
+					//price bracket
+					if($price_bracket_id != null && $price_bracket_id > 0) {
+						$currBO->addPriceBracket(new PriceBracketBO($price_bracket_id, $price_bracket_name, $price_bracket_price));
+					}
+				}
+				
 			}
 			
 			$stmt->close();
+		
 		}
 		
 		$connection->close();
 		
-		return $bo;	
+		return $currBO;
 	}
 	
 	function insertEvent($bo) {

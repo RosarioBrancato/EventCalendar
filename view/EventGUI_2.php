@@ -2,7 +2,7 @@
 
 include_once('GeneralTags.php');
 
-function showEventGui($data, $message) {
+function showEventGui($bo, $message) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,16 +25,27 @@ function showEventGui($data, $message) {
 <?php
 		}
 ?>
+			<!--new or delete event-->
 			<form action="Event.php" method="post">
-				<p><input type="submit" class="btn btn-success" name="event_new" value="Neue Veranstaltung erfassen" /></p>
+				<div class="row">
+					<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
+					<div class="col-sm-3">
+						<p><input type="submit" class="btn btn-info" name="event_overview" value="Zurück zur Übersicht" /></p>
+					</div>
+					<div class="col-sm-3">
+						<p><input type="submit" class="btn btn-success" name="event_new" value="Neue Veranstaltung erfassen" /></p>
+					</div>
+					<div class="col-sm-3">
+						<p><input type="submit" class="btn btn-danger" name="event_delete" value="Veranstaltung löschen" /></p>
+					</div>
+				</div>
 			</form>
 			
 			<!--whole event row-->
 			<div class="row">
 				<div class="col-sm-12">
 <?php
-	if($data != null) {
-		foreach($data as $bo) {
+			if($bo != null) {
 ?>	
 					<!--event name row-->
 					<div class="row div-bordered-warning">
@@ -264,14 +275,14 @@ function showEventGui($data, $message) {
 					</div>
 					
 <?php
-			}
-		} else {
+		
+			} else {
 ?>
 				<div class="row">
 					<div class="col-sm-11">Keine Einträge</div>
 				</div>
 <?php
-		}
+			}
 ?>
 				</div>
 			</div>

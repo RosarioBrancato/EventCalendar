@@ -67,7 +67,7 @@
 			}
 			
 			//show events
-			loadDefaultEventView($message);
+			loadEventDetailView($message, $event_id);
 			
 		} else {
 			//DEFAULT

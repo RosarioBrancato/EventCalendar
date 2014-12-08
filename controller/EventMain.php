@@ -14,12 +14,20 @@
 	include_once('bo/MessageBO.php');
 	include_once('model/DBEvent.php');
 	include_once('model/DBGenre.php');
+	include_once('view/EventGUI.php');
 	include_once('view/EventGUI_2.php');
 	include_once('view/EventAlterGUI.php');
 	
 	function loadDefaultEventView($message) {
 		//load data
 		$data = getEvents();
+		//show gui
+		showEventOverviewGui($data, $message);
+	}
+	
+	function loadEventDetailView($message, $event_id) {
+		//load data
+		$data = getEvent($event_id);
 		//show gui
 		showEventGui($data, $message);
 	}

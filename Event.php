@@ -40,17 +40,7 @@
 		//event posts
 		} else {
 			//include files
-			include_once('utils/DateTimeUtils.php');
-			include_once('bo/EventBO.php');
-			include_once('bo/GenreBO.php');
-			include_once('bo/LinkBO.php');
-			include_once('bo/PerformanceBO.php');
-			include_once('bo/PriceBracketBO.php');
-			include_once('bo/MessageBO.php');
-			include_once('model/DBEvent.php');
-			include_once('model/DBGenre.php');
-			include_once('view/EventGUI_2.php');
-			include_once('view/EventAlterGUI.php');
+			include_once('controller/EventMain.php');
 			//to event controller
 			include_once('controller/Event.php');
 		}

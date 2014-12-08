@@ -41,7 +41,7 @@
 			$id = intval($_POST['link_id']);
 			$name = $_POST['link_name'];
 			$link = $_POST['link_link'];
-			$event_id = $_POST['event_id'];
+			$event_id = intval($_POST['event_id']);
 		
 			//manipulate database
 			switch($mode) {
@@ -58,8 +58,8 @@
 					break;
 			}
 			
-			//show events
-			loadDefaultEventView($message);
+			//show event
+			loadEventDetailView($message, $event_id);
 			
 		} else {
 			//DEFAULT

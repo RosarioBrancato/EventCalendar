@@ -64,10 +64,7 @@
 ?>
 	<div class="collapse navbar-collapse" id="navigationbar">
 		<ul class="nav nav-pills nav-stacked sidebar-group">
-			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="Event.php">Veranstaltungen</a></li>
-			<!--<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_LINK) { echo 'active'; } ?>"><a href="Link.php">Links</a></li>
-			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PRICING) { echo 'active'; } ?>"><a href="Pricing.php">Preisangaben</a></li>
-			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_PERFORMANCE) { echo 'active'; } ?>"><a href="Performance.php">Vorstellungen</a></li>-->    				
+			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="Event.php">Veranstaltungen</a></li>  				
 		</ul>
 		<ul class="nav nav-pills nav-stacked sidebar-group">
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_GENRE) { echo 'active'; } ?>"><a href="Genre.php">Genres</a></li>

@@ -148,18 +148,18 @@ function showEventAlterGui($mode, $data, $message, $genres) {
 <?php 						
 						if ($mode === MODE_NEW) {
 ?>
-							<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
+							<input type="submit" class="btn btn-success" name="event_save" value="Speichern" />
 							<a class="btn btn-danger" href="Event.php">Abbrechen</a>
 <?php 						
 						} else if($mode === MODE_EDIT) {
 ?>
-							<input type="submit" class="btn btn-success" name="event_save" value="Speichern"/>
-							<a class="btn btn-danger" href="Event.php">Abbrechen</a>
+							<input type="submit" class="btn btn-success" name="event_save" value="Speichern" />
+							<input type="submit" class="btn btn-danger" name="event_cancel" value="Abbrechen" />
 <?php
 						} else if($mode === MODE_DELETE) {
 ?>
-							<input type="submit" class="btn btn-success" name="event_save" value="Ja"/>
-							<a class="btn btn-danger" href="Event.php">Nein</a>
+							<input type="submit" class="btn btn-success" name="event_save" value="Ja" />
+							<input type="submit" class="btn btn-danger" name="event_cancel" value="Nein" />
 <?php 						
 						}
 ?>

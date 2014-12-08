@@ -2,7 +2,7 @@
 
 include_once('GeneralTags.php');
 
-function showEventGui($data, $message) {
+function showEventOverviewGui($data, $message) {
 ?>
 <!DOCTYPE html>
 <html>
@@ -32,7 +32,7 @@ function showEventGui($data, $message) {
 				<tr>
 					<th class="col-sm-3">Name</th>
 					<th class="col-sm-6">Beschreibung</th>
-					<th class="col-sm-3">Funktionen</th>
+					<th class="col-sm-2">Funktionen</th>
 				</tr>
 <?php
 		if($data != null) {
@@ -41,11 +41,10 @@ function showEventGui($data, $message) {
 				<tr>
 					<td class="col-sm-3"><?php echo $bo->getName(); ?></td>
 					<td class="col-sm-6"><?php echo $bo->getDescription(); ?></td>
-					<td class="col-sm-3">
+					<td class="col-sm-2">
 						<form action="Event.php" method="post" class="no-margin">
 							<input type="hidden" name="id" value="<?php echo $bo->getId(); ?>" />
-							<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
-							<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />
+							<input type="submit" class="btn btn-info" name="event_detail" value="Details" />
 						</form>
 					</td>
 				</tr>

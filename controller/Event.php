@@ -120,36 +120,43 @@
 				switch($mode) {
 					case MODE_NEW:
 						$message = insertEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
+						//show all events
+						loadDefaultEventView($message);
 						break;
 						
 					case MODE_EDIT:
 						$message = updateEvent(new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id));
+						//show event
+						loadEventDetailView($message, $id);
 						break;
 						
 					case MODE_DELETE:
 						$message = deleteEvent($id);
+						//show all events
+						loadDefaultEventView($message);
 						break;
-				}			
-			
-				//show gui
-				loadDefaultEventView($message);
+					default:
+						//show all events
+						loadDefaultEventView($message);
+						break;
+				}
 			
 			} else {
 				if($modeError) {
 					//Critical error: Post missed the mode type.
-					$message = new MessageBo('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);
+					$message = new MessageBO('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);
 					//show gui
 					loadDefaultEventView($message);
 					
 				} else if($mode == MODE_EDIT && $idError) {
 					//Critical error: Post missed the id of the edited event
-					$message = new MessageBo('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);
+					$message = new MessageBO('Es ist beim Absenden des Formulars ein schwerer Fehler aufgetreten. Bitte versuche es erneut!', MESSAGE_TYPE_DANGER);
 					//show gui
 					loadDefaultEventView($message);
 					
 				} else {
 					//Error: Some unimportant fields were not filled correctly. Let the user retry.
-					$message = new MessageBo($messageText, MESSAGE_TYPE_WARNING);
+					$message = new MessageBO($messageText, MESSAGE_TYPE_WARNING);
 					//reset values
 					$data = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
 					//get genres for dropdown
@@ -159,6 +166,22 @@
 				}
 			}
 			
+		} else if(isset($_POST['event_cancel'])) {
+			//load data
+			$data = getEvent($_POST['id']);
+			//message
+			$message = new MessageBO('Bearbeitung abgebrochen.', MESSAGE_TYPE_INFO);
+			//show gui
+			showEventGui($data, $message);
+			
+			//show event detail view
+		} else if(isset($_POST['event_detail'])) {
+			//load data
+			$data = getEvent($_POST['id']);
+			//show gui
+			showEventGui($data, $message);
+			
+		
 			//if the event is called from outsinde, the default view is
 			//handled from there.
 		} else {
@@ -170,12 +193,5 @@
 		//redirect
 		header('Location: ' . URL . 'LogIn.php');
 		exit;
-	}
-	
-	function loadDefaultEventView($message) {
-		//load data
-		$data = getEvents();
-		//show gui
-		showEventGui($data, $message);
 	}
 ?>
