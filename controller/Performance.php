@@ -40,6 +40,7 @@
 			$time = '00:00';
 			$event_id = 0;
 			
+			$isOk = TRUE;
 			$messageText = 'Einige Felder wurden inkorrekt ausgefüllt:';
 			
 			//get values
@@ -48,26 +49,55 @@
 			$date = formatDate(trim($_POST['performance_date']));
 			$time = formatTime(trim($_POST['performance_time']));
 			$event_id = intval($_POST['event_id']);
+			$event_name = $_POST['event_name'];
 			
 			//TO-DO: Validation
-		
-			//manipulate database
-			switch($mode) {
-				case MODE_NEW:
-					$message = insertPerformance(new PerformanceBO($id, $date, $time, $event_id));
-					break;
-					
-				case MODE_EDIT:
-					$message = updatePerformance(new PerformanceBO($id, $date, $time, $event_id));
-					break;
-					
-				case MODE_DELETE:
-					$message = deletePerformance($id);
-					break;
+			if(isset($_POST['performance_date']) && strlen(trim($_POST['performance_date'])) > 0) {
+				$date = formatDate(trim($_POST['performance_date']));
+				//if the formatTime-method returned an empty string, the time was not valid.
+				if(strlen($date) <= 0) {
+					$isOk = false;
+					$messageText .= '<br> - Das Feld "Datum" wurde inkorrekt ausgefüllt. Bitte geben Sie das Datum im Format DD.MM.YYYY an.';
+				}
 			}
+			if(isset($_POST['performance_time']) && strlen(trim($_POST['performance_time'])) > 0) {
+				$time = formatTime(trim($_POST['performance_time']));
+				//if the formatTime-method returned an empty string, the time was not valid.
+				if(strlen($time) <= 0) {
+					$isOk = false;
+					$messageText .= '<br> - Das Feld "Uhrzeit" wurde inkorrekt ausgefüllt. Bitte geben Sie die Uhrzeit im Format HH:MM an.';
+				}
+			}
+		
+			if($isOk) {
+				//manipulate database
+				switch($mode) {
+					case MODE_NEW:
+						$message = insertPerformance(new PerformanceBO($id, $date, $time, $event_id));
+						break;
+						
+					case MODE_EDIT:
+						$message = updatePerformance(new PerformanceBO($id, $date, $time, $event_id));
+						break;
+						
+					case MODE_DELETE:
+						$message = deletePerformance($id);
+						break;
+				}
+				
+				//show events
+				loadEventDetailView($message, $event_id);
 			
-			//show events
-			loadEventDetailView($message, $event_id);
+			} else {
+				//message
+				$message = new MessageBO($messageText, MESSAGE_TYPE_DANGER);
+				//event bo
+				$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
+				//load performance
+				$data = new PerformanceBO($id, $date, $time, $event_id);
+				//show gui
+				showPerformanceAlterGui($mode, $data, $message, $event);
+			}
 			
 		} else {
 			//DEFAULT

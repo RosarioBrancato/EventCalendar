@@ -204,4 +204,28 @@
 		
 		return $message;
 	}
+	
+	function arePriceBracketsAvaible() {
+		$count = 0;
+		
+		$connection = getConnection();
+		
+		$stmt = $connection->prepare('SELECT count(id) FROM tbl_price_bracket');
+		if($stmt !== FALSE) {
+			$stmt->execute();
+			$stmt->bind_result($count);
+			$stmt->fetch();
+			
+			//reset count if it is null
+			if($count == null) {
+				$count = 0;
+			}
+			
+			$stmt->close();
+		}
+		
+		$connection->close();
+		
+		return $count > 0;	
+	}
 ?>

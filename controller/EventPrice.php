@@ -15,12 +15,19 @@
 			$event_id = intval($_POST['event_id']);
 			$event_name = $_POST['event_name'];
 			
-			//event bo
-			$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
-			//all price brackets
-			$priceBrackets = getPriceBrackets();
-			//show gui
-			showEventPriceAlterGui(MODE_NEW, $priceBrackets, null, $event, 0);
+			if(arePriceBracketsAvaible()) {
+				//event bo
+				$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
+				//all price brackets
+				$priceBrackets = getPriceBrackets();
+				//show gui
+				showEventPriceAlterGui(MODE_NEW, $priceBrackets, null, $event, 0);
+			
+			} else {
+				//redirect to event detail
+				$message = new MessageBO('Es wurden noch keine Preisgruppen erfasst! Um eine Preisgruppe zu zuteilen, muss eine Preisgruppe vorhanden sein.', MESSAGE_TYPE_WARNING);
+				loadEventDetailView($message, $event_id);
+			}
 			
 		} else if(isset($_POST['event_price_edit'])) {
 			//EDIT
