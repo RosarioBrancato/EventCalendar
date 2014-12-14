@@ -13,7 +13,89 @@
 			return $this->last_used_id;
 		}
 		
+		
 		public function getEvents() {
+			$values = array();
+			
+			$connection = getConnection();
+			
+			$stmt = $connection->prepare('SELECT id, name, cast, description, TIME_FORMAT(duration, "%H:%i"), picture, picture_text, genre_id FROM tbl_event ORDER BY name');
+			if($stmt !== FALSE) {
+				$stmt->execute();
+				
+				$id;
+				$name;
+				$cast;
+				$description;
+				$duration;
+				$picture;
+				$pictureText;
+				$genre_id;
+				
+				$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				
+				while($stmt->fetch()) {
+					$values[$id] = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				}
+				
+				$stmt->close();
+			}
+			
+			$connection->close();
+			
+			return $values;
+		}
+		
+		public function getEventsOfYear($genre_id, $year) {
+			$values = array();
+			
+			$connection = getConnection();
+			
+			$sql  = 'SELECT e.id, e.name, e.cast, e.description, TIME_FORMAT(e.duration, "%H:%i"), e.picture, e.picture_text, e.genre_id';
+			$sql .= ' FROM tbl_event e';
+			$sql .= ' LEFT JOIN tbl_performance p ON p.event_id = e.id';
+			$sql .= ' WHERE DATE_FORMAT(p.date, "%Y") = ?';
+			$sql .= ' AND p.date < CURDATE()';
+			
+			if($genre_id != null && intval($genre_id) > 0) {
+				$sql .= ' AND e.genre_id = ?';
+			}
+			
+			$sql .= ' ORDER BY e.name';
+			
+			$stmt = $connection->prepare($sql);
+			if($stmt !== FALSE) {
+				if($genre_id != null && intval($genre_id) > 0) {
+					$stmt->bind_param('ii', $year, $genre_id);
+				} else {
+					$stmt->bind_param('i', $year);
+				}
+				$stmt->execute();
+				
+				$id;
+				$name;
+				$cast;
+				$description;
+				$duration;
+				$picture;
+				$pictureText;
+				$genre_id;
+				
+				$stmt->bind_result($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				
+				while($stmt->fetch()) {
+					$values[$id] = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
+				}
+				
+				$stmt->close();
+			}
+			
+			$connection->close();
+			
+			return $values;
+		}
+		
+		public function getEventsDetailsUpcoming($genre_id) {
 			$values = array();
 			
 			$connection = getConnection();
@@ -23,16 +105,31 @@
 			$sql .= ' l.id, l.name, l.link,';
 			$sql .= ' p.id, DATE_FORMAT(p.date, "%d.%m.%Y"), TIME_FORMAT(p.time, "%H:%i"),';
 			$sql .= ' pb.id, pb.name, pb.price';
+			
 			$sql .= ' FROM tbl_event e';
 			$sql .= ' LEFT JOIN tbl_genre g ON g.id = e.genre_id';
 			$sql .= ' LEFT JOIN tbl_link l ON l.event_id = e.id';
 			$sql .= ' LEFT JOIN tbl_performance p ON p.event_id = e.id';
 			$sql .= ' LEFT JOIN tbl_event_price ep ON ep.event_id = e.id';
 			$sql .= ' LEFT JOIN tbl_price_bracket pb ON pb.id = ep.price_bracket_id';
-			$sql .= ' ORDER BY e.name, p.date, p.time, pb.price';
+			
+			$sql .= ' WHERE p.date IS NOT NULL';
+			$sql .= ' AND p.time IS NOT NULL';
+			$sql .= ' AND p.date >= CURDATE()';
+			
+			if($genre_id != null && $genre_id > 0) {
+				$sql .= ' AND g.id = ?';
+			}
+			
+			$sql .= ' ORDER BY p.date, p.time, e.name, pb.price';
 			
 			$stmt = $connection->prepare($sql);
 			if($stmt !== FALSE) {
+			
+				if($genre_id != null && $genre_id > 0) {
+					$stmt->bind_param('i', $genre_id);
+				}
+				
 				$stmt->execute();
 				
 				$id;
@@ -65,7 +162,10 @@
 				
 				while($stmt->fetch()) {
 					//set event and genre
-					if($id != $currId) {
+					if(array_key_exists($id, $values)) {
+						$currId = $id;
+						$currBO = $values[$id];
+					} else {
 						$currId = $id;
 						$currBO = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
 						$currBO->setGenre(new GenreBO($genre_id, $genre_name));
@@ -191,6 +291,8 @@
 			
 			return $currBO;
 		}
+		
+		
 		
 		public function insertEvent($bo) {
 			$message = new MessageBO('Beim Speichern ist ein Fehler aufgetreten. Bitte versuche es erneut.', MESSAGE_TYPE_DANGER);

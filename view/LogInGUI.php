@@ -3,12 +3,11 @@
 include('GeneralTags.php');
 
 function showLogInGui($data, $message) {
+	//username
 	$username = '';
-	
 	if($data != null) {
 		$username = $data->getUsername();
 	}
-	
 ?>
 <html>
 <head>

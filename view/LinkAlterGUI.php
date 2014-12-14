@@ -46,6 +46,7 @@ function showLinkAlterGui($mode, $data, $message, $event) {
 				<input type="hidden" name="mode" value="<?php echo $mode; ?>" />
 				<input type="hidden" name="link_id" value="<?php echo $id; ?>" />
 				<input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
+				<input type="hidden" name="event_name" value="<?php echo $event_name; ?>" />
 				<div class="row">
 					<div class="col-sm-2 div-to-block height-fixed">
 						<p class="hidden-xs  p-text-vertical-center text-right"><strong>Veranstaltung</strong></p>

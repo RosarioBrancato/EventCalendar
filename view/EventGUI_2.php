@@ -89,7 +89,7 @@ function showEventGui($data) {
 									Beschreibung:
 								</div>
 								<div class="col-sm-9">
-									<?php echo $data->getDescription(); ?>
+									<?php echo nl2br($data->getDescription()); ?>
 								</div>
 							</div>
 							
@@ -143,7 +143,6 @@ function showEventGui($data) {
 									<form action="Event.php" method="post" class="no-margin">
 										<input type="hidden" name="id" value="<?php echo $data->getId(); ?>" />
 										<input type="submit" class="btn btn-info" name="event_edit" value="Bearbeiten" />
-										<!--<input type="submit" class="btn btn-danger" name="event_delete" value="Löschen" />-->
 									</form>
 								</div>
 							</div>
@@ -169,7 +168,7 @@ function showEventGui($data) {
 									<p class="p-text-vertical-center"><?php echo $link->getName(); ?></p>
 								</div>
 								<div class="col-sm-6 div-to-block height-fixed">
-									<p class="p-text-vertical-center"><?php echo $link->getLink(); ?></p>
+									<p class="p-text-vertical-center"><a href="<?php echo $link->getLink(); ?>"><?php echo $link->getLink(); ?></a></p>
 								</div>
 								<div class="col-sm-3 text-right">
 									<form action="Link.php" method="post" class="no-margin">
@@ -278,10 +277,11 @@ function showEventGui($data) {
 ?>
 							<div class="row">
 								<div class="col-sm-12 text-right">
-									<form action="Performance.php" method="post" class>
-									<input type="hidden" name="event_id" value="<?php echo $data->getId(); ?>" />
-									<input type="hidden" name="event_name" value="<?php echo $data->getName(); ?>" />
-									<input type="submit" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
+									<form action="Performance.php" method="post" class="no-margin">
+										<input type="hidden" name="event_id" value="<?php echo $data->getId(); ?>" />
+										<input type="hidden" name="event_name" value="<?php echo $data->getName(); ?>" />
+										<input type="submit" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
+									</form>
 								</div>
 							</div>
 						

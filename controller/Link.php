@@ -42,24 +42,37 @@
 			$name = $_POST['link_name'];
 			$link = $_POST['link_link'];
 			$event_id = intval($_POST['event_id']);
-		
-			//manipulate database
-			switch($mode) {
-				case MODE_NEW:
-					$message = insertLink(new LinkBO($id, $name, $link, $event_id));
-					break;
-					
-				case MODE_EDIT:
-					$message = updateLink(new LinkBO($id, $name, $link, $event_id));
-					break;
-					
-				case MODE_DELETE:
-					$message = deleteLink($id);
-					break;
-			}
+			$event_name = $_POST['event_name'];
 			
-			//show event
-			loadEventDetailView($message, $event_id);
+			if($mode == MODE_DELETE || IsUrlValid($link)) {
+				//manipulate database
+				switch($mode) {
+					case MODE_NEW:
+						$message = insertLink(new LinkBO($id, $name, $link, $event_id));
+						break;
+						
+					case MODE_EDIT:
+						$message = updateLink(new LinkBO($id, $name, $link, $event_id));
+						break;
+						
+					case MODE_DELETE:
+						$message = deleteLink($id);
+						break;
+				}
+			
+				//show event
+				loadEventDetailView($message, $event_id);
+			
+			} else {
+				//message
+				$message = new MessageBO('Der Link existiert nicht. Bitte geben Sie einen gültigen Link ein.', MESSAGE_TYPE_DANGER);
+				//event bo
+				$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
+				//load link
+				$data = new LinkBO($id, $name, $link, $event_id);
+				//show gui
+				showLinkAlterGui($mode, $data, $message, $event);
+			}
 			
 		} else {
 			//DEFAULT

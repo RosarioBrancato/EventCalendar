@@ -51,10 +51,9 @@
 			$event_id = intval($_POST['event_id']);
 			$event_name = $_POST['event_name'];
 			
-			//TO-DO: Validation
 			if(isset($_POST['performance_date']) && strlen(trim($_POST['performance_date'])) > 0) {
 				$date = formatDate(trim($_POST['performance_date']));
-				//if the formatTime-method returned an empty string, the time was not valid.
+				//if the formatDate-method returned an empty string, the date was not valid.
 				if(strlen($date) <= 0) {
 					$isOk = false;
 					$messageText .= '<br> - Das Feld "Datum" wurde inkorrekt ausgefüllt. Bitte geben Sie das Datum im Format DD.MM.YYYY an.';
@@ -69,7 +68,7 @@
 				}
 			}
 		
-			if($isOk) {
+			if($mode == MODE_DELETE || $isOk) {
 				//manipulate database
 				switch($mode) {
 					case MODE_NEW:

@@ -32,26 +32,44 @@
 			$mode = intval($_POST['mode']);
 			$id = intval($_POST['id']);
 			$name = $_POST['name'];
-		
-			//manipulate database
-			switch($mode) {
-				case MODE_NEW:
-					$message = insertGenre(new GenreBO($id, $name));
-					break;
-					
-				case MODE_EDIT:
-					$message = updateGenre(new GenreBO($id, $name));
-					break;
-					
-				case MODE_DELETE:
-					$message = deleteGenre($id);
-					break;
+			
+			$isOk = true;
+			$messageText = 'Einige Felder wurden inkorrekt ausgefüllt:';
+			
+			if(strlen($name) <= 0) {
+				$isOk = false;
+				$messageText .= '<br> - Das Feld "Name" wurde nicht ausgefüllt. Bitte gib einen Namen ein.';
 			}
 			
-			//load data
-			$data = getGenres();
-			//show gui
-			showGenreGui($data, $message);
+			if($mode == MODE_DELETE || $isOk) {
+				//manipulate database
+				switch($mode) {
+					case MODE_NEW:
+						$message = insertGenre(new GenreBO($id, $name));
+						break;
+						
+					case MODE_EDIT:
+						$message = updateGenre(new GenreBO($id, $name));
+						break;
+						
+					case MODE_DELETE:
+						$message = deleteGenre($id);
+						break;
+				}
+				
+				//load data
+				$data = getGenres();
+				//show gui
+				showGenreGui($data, $message);
+			
+			} else {
+				//message
+				$message = new MessageBO($messageText, MESSAGE_TYPE_DANGER);
+				//load price bracket
+				$data = new GenreBO($id, $name);
+				//show gui
+				showGenreAlterGui($mode, $data, $message);
+			}
 			
 		} else {
 			//DEFAULT

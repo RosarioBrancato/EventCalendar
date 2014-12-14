@@ -31,6 +31,31 @@
 		return $bo;	
 	}
 	
+	function getYearsOfEvents() {
+		$values = array();
+		
+		$connection = getConnection();
+		
+		$stmt = $connection->prepare('SELECT DISTINCT DATE_FORMAT(date, "%Y") FROM tbl_performance WHERE date <= CURDATE() ORDER BY date DESC');
+		if($stmt !== FALSE) {
+			$stmt->execute();
+			
+			$year;
+			
+			$stmt->bind_result($year);
+			
+			while($stmt->fetch()) {
+				$values[$year] = $year;
+			}
+			
+			$stmt->close();
+		}
+		
+		$connection->close();
+		
+		return $values;
+	}
+	
 	function insertPerformance($bo) {
 		if($bo == null || $bo->getId() > 0) {
 			return new MessageBO('Beim Speichern ist ein Fehler aufgetreten. Bitte versuche es erneut.', MESSAGE_TYPE_DANGER);

@@ -33,26 +33,50 @@
 			$id = intval($_POST['id']);
 			$name = $_POST['name'];
 			$price = floatval($_POST['price']);
-		
-			//manipulate database
-			switch($mode) {
-				case MODE_NEW:
-					$message = insertPriceBracket(new PriceBracketBO($id, $name, $price));
-					break;
-					
-				case MODE_EDIT:
-					$message = updatePriceBracket(new PriceBracketBO($id, $name, $price));
-					break;
-					
-				case MODE_DELETE:
-					$message = deletePriceBracket($id);
-					break;
+			
+			
+			$isOk = TRUE;
+			$messageText = 'Einige Felder wurden inkorrekt ausgefüllt:';
+			
+			if(strlen($name) <= 0) {
+				$isOk = false;
+				$messageText .= '<br> - Das Feld "Name" wurde nicht ausgefüllt. Bitte gib einen Namen ein.';
 			}
 			
-			//load data
-			$data = getPriceBrackets();
-			//show gui
-			showPriceBracketGui($data, $message);
+			if($price < 0) {
+				$isOk = false;
+				$messageText .= '<br> - Das Feld "Preis" wurde nicht korrekt ausgefüllt. Bitte gib einen positiven Preis ein.';
+			}
+			
+			if($mode == MODE_DELETE || $isOk) {
+				//manipulate database
+				switch($mode) {
+					case MODE_NEW:
+						$message = insertPriceBracket(new PriceBracketBO($id, $name, $price));
+						break;
+						
+					case MODE_EDIT:
+						$message = updatePriceBracket(new PriceBracketBO($id, $name, $price));
+						break;
+						
+					case MODE_DELETE:
+						$message = deletePriceBracket($id);
+						break;
+				}
+				
+				//load data
+				$data = getPriceBrackets();
+				//show gui
+				showPriceBracketGui($data, $message);
+				
+			} else {
+				//message
+				$message = new MessageBO($messageText, MESSAGE_TYPE_DANGER);
+				//load price bracket
+				$data = new PriceBracketBO($id, $name, $price);
+				//show gui
+				showPriceBracketAlterGui($mode, $data, $message);
+			}
 			
 		} else {
 			//DEFAULT
