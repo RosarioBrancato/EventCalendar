@@ -266,6 +266,7 @@ function showEventGui($data) {
 									<form action="Performance.php" method="post" class="no-margin">
 										<input type="hidden" name="event_id" value="<?php echo $data->getId(); ?>" />
 										<input type="hidden" name="event_name" value="<?php echo $data->getName(); ?>" />
+										<input type="hidden" name="event_duration" value="<?php echo $data->getDuration(); ?>" />
 										<input type="hidden" name="performance_id" value="<?php echo $performance->getId(); ?>" />
 										<input type="submit" class="btn btn-info" name="performance_edit" value="Bearbeiten" />
 										<input type="submit" class="btn btn-danger" name="performance_delete" value="Löschen" />
@@ -280,6 +281,7 @@ function showEventGui($data) {
 									<form action="Performance.php" method="post" class="no-margin">
 										<input type="hidden" name="event_id" value="<?php echo $data->getId(); ?>" />
 										<input type="hidden" name="event_name" value="<?php echo $data->getName(); ?>" />
+										<input type="hidden" name="event_duration" value="<?php echo $data->getDuration(); ?>" />
 										<input type="submit" class="btn btn-success" name="performance_new" value="Neue Vorstellung erfassen">
 									</form>
 								</div>

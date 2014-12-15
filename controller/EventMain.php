@@ -14,8 +14,8 @@
 	include_once('bo/MessageBO.php');
 	include_once('model/DBEvent.php');
 	include_once('model/DBGenre.php');
-	include_once('view/EventGUI.php');
-	include_once('view/EventGUI_2.php');
+	include_once('view/EventOverviewGUI.php');
+	include_once('view/EventDetailGUI.php');
 	include_once('view/EventAlterGUI.php');
 	
 	function loadDefaultEventView($message) {

@@ -56,6 +56,58 @@
 		return $values;
 	}
 	
+	function isPerformanceDateTimeFree($date, $time, $duration, $id) {
+		$values = null;
+		
+		$connection = getConnection();
+		
+		$sql  = 'SELECT e.name, TIME_FORMAT(e.duration, "%H:%i"), p.id, DATE_FORMAT(p.date, "%d.%m.%Y"), TIME_FORMAT(p.time, "%H:%i")';
+		$sql .= ' FROM tbl_performance p';
+		$sql .= ' LEFT JOIN tbl_event e ON e.id = p.event_id';
+		$sql .= ' WHERE ? = p.date'; 
+		$sql .= ' AND (? BETWEEN p.time AND ADDTIME(p.time, e.duration)';
+		$sql .= ' OR ADDTIME(?, ?) BETWEEN p.time AND ADDTIME(p.time, e.duration))';
+		if($id > 0) {
+			$sql .= ' AND p.id <> ?';
+		}
+		$sql .= ' ORDER BY p.date, p.time';
+		
+		$stmt = $connection->prepare($sql);
+		if($stmt !== FALSE) {
+			if($id > 0) {
+				$stmt->bind_param('ssssi', $date, $time, $time, $duration, $id);
+			} else {
+				$stmt->bind_param('ssss', $date, $time, $time, $duration);
+			}
+			$stmt->execute();
+			
+			$event_name;
+			$event_duration;
+			$performance_id;
+			$performance_date;
+			$performance_time;
+			
+			$stmt->bind_result($event_name, $event_duration, $performance_id, $performance_date, $performance_time);
+			
+			while($stmt->fetch()) {
+				if($values == null) {
+					$values = array();
+				}
+				
+				$values[$performance_id] = array('event_name'=>$event_name, 
+													'event_duration'=>$event_duration, 
+													'performance_date'=>$performance_date, 
+													'performance_time'=>$performance_time);
+			}
+			
+			$stmt->close();
+		}
+		
+		$connection->close();
+		
+		return $values;	
+	}
+	
 	function insertPerformance($bo) {
 		if($bo == null || $bo->getId() > 0) {
 			return new MessageBO('Beim Speichern ist ein Fehler aufgetreten. Bitte versuche es erneut.', MESSAGE_TYPE_DANGER);

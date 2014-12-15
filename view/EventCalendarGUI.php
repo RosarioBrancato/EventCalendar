@@ -247,11 +247,14 @@ function showEventCalendarGui($data, $genres, $selectedGenreId) {
 	} else {
 ?>
 			<div class="row">
-				<div class="col-sm-11 text-center"><h3>Keine Vorstellungen</h3></div>
+				<div class="col-sm-12 text-center"><h3>Keine Vorstellungen</h3></div>
 			</div>
 <?php
 	}
 ?>		
+			<div class="row div-bordered-warning">
+				<div class="col-sm-12 text-center"><a href="LogIn.php">Administration</a></div>
+			</div>
 		</div>
 	</div>
 </div>

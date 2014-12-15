@@ -1,5 +1,6 @@
-- Performance Validation
+- Performance Validation						DONE
+- Duration Validation
 - Cancel-Posts
 - DB: Cascade on event relations				DONE
 
-- Chrome: input date has another internal formatting
+- Chrome: input date has another internal formatting	DONE

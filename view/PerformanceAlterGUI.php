@@ -20,6 +20,7 @@ function showPerformanceAlterGui($mode, $data, $message, $event) {
 	if($event != null) {
 		$event_id = $event->getId();
 		$event_name = $event->getName();
+		$event_duration = $event->getDuration();
 	}
 ?>
 <html>
@@ -47,6 +48,7 @@ function showPerformanceAlterGui($mode, $data, $message, $event) {
 				<input type="hidden" name="performance_id" value="<?php echo $id; ?>" />
 				<input type="hidden" name="event_id" value="<?php echo $event_id; ?>" />
 				<input type="hidden" name="event_name" value="<?php echo $event_name; ?>" />
+				<input type="hidden" name="event_duration" value="<?php echo $event_duration; ?>" />
 				<div class="row">
 					<div class="col-sm-3 div-to-block height-fixed">
 						<p class="hidden-xs  p-text-vertical-center text-right"><strong>Veranstaltung</strong></p>
@@ -67,7 +69,7 @@ function showPerformanceAlterGui($mode, $data, $message, $event) {
 						<p class="visible-xs p-text-vertical-center">Datum (DD.MM.YYYY)*</p>
 					</div>
 					<div class="col-sm-3 height-fixed">
-						<input type="date" class="form-control" name="performance_date" value="<?php echo $date; ?>" maxlength="50" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
+						<input type="text" class="form-control" name="performance_date" value="<?php echo $date; ?>" maxlength="50" <?php if($mode === MODE_DELETE){ echo 'readonly="readonly"'; } ?> />
 					</div>
 				</div>
 				<div class="row">

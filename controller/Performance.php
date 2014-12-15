@@ -10,14 +10,14 @@
 		if(isset($_POST['performance_new'])) {
 			//NEW
 			//event bo
-			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, null, null, null, null);
+			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, $_POST['event_duration'], null, null, null);
 			//show gui
 			showPerformanceAlterGui(MODE_NEW, null, null, $event);
 			
 		} else if(isset($_POST['performance_edit'])) {
 			//EDIT
 			//event bo
-			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, null, null, null, null);
+			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, $_POST['event_duration'], null, null, null);
 			//load performance
 			$data = getPerformance($_POST['performance_id']);
 			//show gui
@@ -26,7 +26,7 @@
 		} else if(isset($_POST['performance_delete'])) {
 			//DELETE
 			//event bo
-			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, null, null, null, null);
+			$event = new EventBO(intval($_POST['event_id']), $_POST['event_name'], null, null, $_POST['event_duration'], null, null, null);
 			//load performance
 			$data = getPerformance($_POST['performance_id']);
 			//show gui
@@ -46,25 +46,46 @@
 			//get values
 			$mode = intval($_POST['mode']);
 			$id = intval($_POST['performance_id']);
-			$date = formatDate(trim($_POST['performance_date']));
-			$time = formatTime(trim($_POST['performance_time']));
+			
+			$date = $_POST['performance_date'];
+			$date_formatted = formatDate($date);
+			
+			$time = $_POST['performance_time'];
+			$time_formatted = formatTime(trim($time));
+			
 			$event_id = intval($_POST['event_id']);
 			$event_name = $_POST['event_name'];
 			
+			$event_duration = $_POST['event_duration'];
+			$event_duration_formatted = formatTime(trim($_POST['event_duration']));
+			
 			if(isset($_POST['performance_date']) && strlen(trim($_POST['performance_date'])) > 0) {
-				$date = formatDate(trim($_POST['performance_date']));
+				$date_formatted = formatDate(trim($_POST['performance_date']));
 				//if the formatDate-method returned an empty string, the date was not valid.
-				if(strlen($date) <= 0) {
+				if(strlen($date_formatted) <= 0) {
 					$isOk = false;
 					$messageText .= '<br> - Das Feld "Datum" wurde inkorrekt ausgefüllt. Bitte geben Sie das Datum im Format DD.MM.YYYY an.';
 				}
 			}
 			if(isset($_POST['performance_time']) && strlen(trim($_POST['performance_time'])) > 0) {
-				$time = formatTime(trim($_POST['performance_time']));
+				$time_formatted = formatTime(trim($_POST['performance_time']));
 				//if the formatTime-method returned an empty string, the time was not valid.
-				if(strlen($time) <= 0) {
+				if(strlen($time_formatted) <= 0) {
 					$isOk = false;
 					$messageText .= '<br> - Das Feld "Uhrzeit" wurde inkorrekt ausgefüllt. Bitte geben Sie die Uhrzeit im Format HH:MM an.';
+				}
+			}
+			//if there are no coincidences $values is null, else it returns the values of the coinciding events
+			$values = isPerformanceDateTimeFree($date_formatted, $time_formatted, $event_duration_formatted, $id);
+			if($values != null) {
+				$isOk = false;
+				$messageText .= '<br> - Die Uhrzeit überschneidet sich mit andere Veranstaltung/en:';
+				foreach($values as $row) {
+					$messageText .= '<br>';
+					$messageText .= '<br> --- Name:  ' . $row['event_name'];
+					$messageText .= '<br> --- Datum: ' . $row['performance_date'];
+					$messageText .= '<br> --- Uhrzeit: ' . $row['performance_time'];
+					$messageText .= '<br> --- Dauer: ' . $row['event_duration'];
 				}
 			}
 		
@@ -72,11 +93,11 @@
 				//manipulate database
 				switch($mode) {
 					case MODE_NEW:
-						$message = insertPerformance(new PerformanceBO($id, $date, $time, $event_id));
+						$message = insertPerformance(new PerformanceBO($id, $date_formatted, $time_formatted, $event_id));
 						break;
 						
 					case MODE_EDIT:
-						$message = updatePerformance(new PerformanceBO($id, $date, $time, $event_id));
+						$message = updatePerformance(new PerformanceBO($id, $date_formatted, $time_formatted, $event_id));
 						break;
 						
 					case MODE_DELETE:
@@ -91,7 +112,7 @@
 				//message
 				$message = new MessageBO($messageText, MESSAGE_TYPE_DANGER);
 				//event bo
-				$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
+				$event = new EventBO($event_id, $event_name, null, null, $event_duration, null, null, null);
 				//load performance
 				$data = new PerformanceBO($id, $date, $time, $event_id);
 				//show gui
