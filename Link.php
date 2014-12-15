@@ -10,7 +10,6 @@
 	if(isset($_SESSION['user_id'])) {
 			
 		//include files
-		include_once('utils/UrlUtils.php');
 		include_once('bo/LinkBO.php');
 		include_once('bo/EventBO.php');
 		include_once('bo/MessageBO.php');

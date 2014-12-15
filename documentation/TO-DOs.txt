@@ -1,5 +1,5 @@
 - Performance Validation						DONE
-- Duration Validation
+- Duration Validation							DONE
 - Cancel-Posts
 - DB: Cascade on event relations				DONE
 

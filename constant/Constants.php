@@ -17,6 +17,9 @@
 	define('NAVBAR_SELECTION_LINK', 4);
 	define('NAVBAR_SELECTION_PRICING', 5);
 	
+	define('NAVBAR_SELECTION_UPCOMING', 6);
+	define('NAVBAR_SELECTION_ARCHIVE', 7);
+	
 	//editing
 	define('MODE_NEW', 0);
 	define('MODE_EDIT', 1);

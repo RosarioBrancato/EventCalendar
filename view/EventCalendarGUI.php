@@ -19,7 +19,7 @@ function showEventCalendarGui($data, $genres, $selectedGenreId) {
 <div class="container">
 	<div class="row">
 		<div class="col-sm-3">
-			<?php getNavMenuCalendar(null); ?>
+			<?php getNavMenuCalendar(NAVBAR_SELECTION_UPCOMING); ?>
 		</div>
 		<div class="col-sm-9">
 			<h1 class="page-header">Veranstaltung</h1>
@@ -104,7 +104,9 @@ function showEventCalendarGui($data, $genres, $selectedGenreId) {
 									<?php echo $bo->getDuration(); ?>
 								</div>
 							</div>
-							
+<?php 
+						if(strlen($bo->getPicture()) > 0) { 
+?>
 							<!--picture row-->
 							<div class="row">
 								<div class="col-sm-3">
@@ -114,9 +116,7 @@ function showEventCalendarGui($data, $genres, $selectedGenreId) {
 									<!--TO-DO-->
 								</div>
 							</div>
-<?php 
-						if(strlen($bo->getPictureText()) > 0){ 
-?>
+							
 							<!--picture text row-->
 							<div class="row">
 								<div class="col-sm-3">

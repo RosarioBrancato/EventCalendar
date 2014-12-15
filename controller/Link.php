@@ -44,7 +44,7 @@
 			$event_id = intval($_POST['event_id']);
 			$event_name = $_POST['event_name'];
 			
-			if($mode == MODE_DELETE || IsUrlValid($link)) {
+			if($mode == MODE_DELETE || strlen($link) > 0) {
 				//manipulate database
 				switch($mode) {
 					case MODE_NEW:
@@ -65,7 +65,7 @@
 			
 			} else {
 				//message
-				$message = new MessageBO('Der Link existiert nicht. Bitte geben Sie einen gültigen Link ein.', MESSAGE_TYPE_DANGER);
+				$message = new MessageBO('Das Feld "Link" muss ausgefüllt werden. Bitte gib einen Link ein.', MESSAGE_TYPE_DANGER);
 				//event bo
 				$event = new EventBO($event_id, $event_name, null, null, null, null, null, null);
 				//load link

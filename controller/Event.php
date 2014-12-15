@@ -98,17 +98,35 @@
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Beschreibung" darf nicht leer sein.';
 			}
+			
 			if(isset($_POST['duration']) && strlen(trim($_POST['duration'])) > 0) {
 				$duration = formatTime(trim($_POST['duration']));
 				//if the formatTime-method returned an empty string, the time was not valid.
 				if(strlen($duration) <= 0) {
 					$isOk = false;
 					$messageText .= '<br> - Das Feld "Länge" wurde inkorrekt ausgefüllt. Bitte geben Sie die Länge im Format HH:MM an.';
+					
+				} else if($mode == MODE_EDIT) {
+					//if the duration does not overlap with other events the returned value is null or else it returns the list of events.
+					$values = isChangeOfEventDurationPossible($id, $duration);
+					if($values != null) {
+						$isOk = false;
+						$messageText .= '<br> - Die Dauer überschneidet sich nun mit andere Veranstaltung/en:';
+						foreach($values as $row) {
+							$messageText .= '<br>';
+							$messageText .= '<br> --- Name:  ' . $row['event_name'];
+							$messageText .= '<br> --- Datum: ' . $row['performance_date'];
+							$messageText .= '<br> --- Uhrzeit: ' . $row['performance_time'];
+							$messageText .= '<br> --- Akt. Dauer: ' . $row['event_duration'];
+						}
+					}
 				}
 			} else {
 				$isOk = false;
 				$messageText .= '<br> - Das Feld "Länge" darf nicht leer sein.';
 			}
+			
+			
 			if(isset($_POST['picture_text'])) {
 				$pictureText = trim($_POST['picture_text']);
 			} else {
@@ -173,7 +191,7 @@
 					
 				} else {
 					//Error: Some unimportant fields were not filled correctly. Let the user retry.
-					$message = new MessageBO($messageText, MESSAGE_TYPE_WARNING);
+					$message = new MessageBO($messageText, MESSAGE_TYPE_DANGER);
 					//reset values
 					$data = new EventBO($id, $name, $cast, $description, $duration, $picture, $pictureText, $genre_id);
 					//get genres for dropdown
@@ -182,9 +200,6 @@
 					showEventAlterGUI($mode, $data, $message, $genres);
 				}
 			}
-			
-			//flush post
-			$_POST = array();
 			
 		} else if(isset($_POST['event_cancel'])) {
 			//message

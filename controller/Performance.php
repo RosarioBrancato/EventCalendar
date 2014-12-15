@@ -57,7 +57,7 @@
 			$event_name = $_POST['event_name'];
 			
 			$event_duration = $_POST['event_duration'];
-			$event_duration_formatted = formatTime(trim($_POST['event_duration']));
+			$event_duration_formatted = formatTime(trim($event_duration));
 			
 			if(isset($_POST['performance_date']) && strlen(trim($_POST['performance_date'])) > 0) {
 				$date_formatted = formatDate(trim($_POST['performance_date']));

@@ -54,7 +54,7 @@ function showEventGui($data) {
 			<div class="row">
 				<div class="col-sm-12">
 <?php
-			if($data != null) {
+				if($data != null) {
 ?>	
 					<!--event name row-->
 					<div class="row div-bordered-warning">
@@ -102,7 +102,9 @@ function showEventGui($data) {
 									<?php echo $data->getDuration(); ?>
 								</div>
 							</div>
-							
+<?php 
+						if(strlen($data->getPicture()) > 0) { 
+?>
 							<!--picture row-->
 							<div class="row">
 								<div class="col-sm-3">
@@ -112,9 +114,7 @@ function showEventGui($data) {
 									<!--TO-DO-->
 								</div>
 							</div>
-<?php 
-						if(strlen($data->getPictureText()) > 0){ 
-?>
+							
 							<!--picture text row-->
 							<div class="row">
 								<div class="col-sm-3">
@@ -124,8 +124,8 @@ function showEventGui($data) {
 									<?php echo $data->getPictureText(); ?>
 								</div>
 							</div>
-<?php
-						} 
+<?php 
+						}
 ?>
 							<!--genre row-->
 							<div class="row">
@@ -292,14 +292,17 @@ function showEventGui($data) {
 					
 <?php
 		
-			} else {
+				} else {
 ?>
-				<div class="row">
-					<div class="col-sm-11">Keine Einträge</div>
-				</div>
+					<div class="row">
+						<div class="col-sm-11">Keine Einträge</div>
+					</div>
 <?php
-			}
+				}
 ?>
+
+					<div class="row div-bordered-warning"></div>
+					
 				</div>
 			</div>
 		</div>

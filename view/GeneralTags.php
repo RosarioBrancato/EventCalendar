@@ -64,7 +64,7 @@
 ?>
 	<div class="collapse navbar-collapse" id="navigationbar">
 		<ul class="nav nav-pills nav-stacked sidebar-group">
-			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="Event.php">Veranstaltungen</a></li>  				
+			<li role="presentation" class="sidebar-title <?php if($activeNode === NAVBAR_SELECTION_EVENT) { echo 'active'; } ?>"><a href="Event.php">Veranstaltungen</a></li>  				
 		</ul>
 		<ul class="nav nav-pills nav-stacked sidebar-group">
 			<li role="presentation" class="sidebar-text <?php if($activeNode === NAVBAR_SELECTION_GENRE) { echo 'active'; } ?>"><a href="Genre.php">Genres</a></li>
@@ -74,40 +74,26 @@
 			<li role="presentation" class="sidebar-text"><a href="Event-Calendar.php">Zur Homepage</a></li>  				
 		</ul>
 		<ul class="nav nav-pills nav-stacked sidebar-group visible-xs">
-			<form method="post" action="LogIn.php" class="navbar-form no-margin">
-				<li role="presentation">
+			<li role="presentation">
+				<form method="post" action="LogIn.php" class="navbar-form no-margin">
 					<input type="submit" class="btn btn-link sidebar-text" name="log_out" value="Abmelden"/>
-				</li>
-			</form>
+				</form>
+			</li>
 		</ul>
     </div>
 <?php
 	}
 	
-	function getNavMenuCalendar($selectedYear) {
-		//years
-		$years = getYearsOfEvents();
+	function getNavMenuCalendar($activeNode) {
 ?>
 	<div class="collapse navbar-collapse" id="navigationbar">
 		<ul class="nav nav-pills nav-stacked sidebar-group">
-			<li role="presentation" class="sidebar-title <?php if($selectedYear == null) { echo 'active'; } ?>"><a href="Event-Calendar.php">Aktuell</a></li>  				
+			<li role="presentation" class="sidebar-title <?php if($activeNode == NAVBAR_SELECTION_UPCOMING) { echo 'active'; } ?>"><a href="Event-Calendar.php">Aktuell</a></li>			
+		</ul>
+		<ul class="nav nav-pills nav-stacked sidebar-group">  
+			<li role="presentation" class="sidebar-title <?php if($activeNode == NAVBAR_SELECTION_ARCHIVE) { echo 'active'; } ?>"><a href="Event-Archive.php">Archiv</a></li> 				
 		</ul>
 <?php
-	if($years != null && sizeof($years) > 0) {
-?>
-		<ul class="nav nav-pills nav-stacked sidebar-group">
-			<li role="presentation"><h3><strong>Archiv</strong></h3></li>
-<?php 
-		foreach($years as $year) {
-?>
-			<li role="presentation" class="sidebar-text <?php if($selectedYear == $year) { echo 'active'; } ?>"><a href="<?php echo 'Event-Archive.php?year=' . $year; ?>">Jahr <?php echo $year; ?></a></li>
-<?php
-		}
-?>
-		</ul>
-<?php
-	}
-	
 	if(isset($_SESSION['user_id'])) {
 ?>
 		<ul class="nav nav-pills nav-stacked sidebar-group">

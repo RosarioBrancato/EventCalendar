@@ -31,30 +31,6 @@
 		return $bo;	
 	}
 	
-	function getYearsOfEvents() {
-		$values = array();
-		
-		$connection = getConnection();
-		
-		$stmt = $connection->prepare('SELECT DISTINCT DATE_FORMAT(date, "%Y") FROM tbl_performance WHERE date <= CURDATE() ORDER BY date DESC');
-		if($stmt !== FALSE) {
-			$stmt->execute();
-			
-			$year;
-			
-			$stmt->bind_result($year);
-			
-			while($stmt->fetch()) {
-				$values[$year] = $year;
-			}
-			
-			$stmt->close();
-		}
-		
-		$connection->close();
-		
-		return $values;
-	}
 	
 	function isPerformanceDateTimeFree($date, $time, $duration, $id) {
 		$values = null;
@@ -64,9 +40,10 @@
 		$sql  = 'SELECT e.name, TIME_FORMAT(e.duration, "%H:%i"), p.id, DATE_FORMAT(p.date, "%d.%m.%Y"), TIME_FORMAT(p.time, "%H:%i")';
 		$sql .= ' FROM tbl_performance p';
 		$sql .= ' LEFT JOIN tbl_event e ON e.id = p.event_id';
-		$sql .= ' WHERE ? = p.date'; 
-		$sql .= ' AND (? BETWEEN p.time AND ADDTIME(p.time, e.duration)';
-		$sql .= ' OR ADDTIME(?, ?) BETWEEN p.time AND ADDTIME(p.time, e.duration))';
+		$sql .= ' WHERE p.date = ?'; 
+		$sql .= ' AND ((? < p.time AND TIME(ADDTIME(?, ?)) > TIME(ADDTIME(p.time, e.duration)))';
+		$sql .= ' OR ? BETWEEN p.time AND TIME(ADDTIME(p.time, e.duration))';
+		$sql .= ' OR TIME(ADDTIME(?, ?)) BETWEEN p.time AND TIME(ADDTIME(p.time, e.duration)))';
 		if($id > 0) {
 			$sql .= ' AND p.id <> ?';
 		}
@@ -75,9 +52,9 @@
 		$stmt = $connection->prepare($sql);
 		if($stmt !== FALSE) {
 			if($id > 0) {
-				$stmt->bind_param('ssssi', $date, $time, $time, $duration, $id);
+				$stmt->bind_param('sssssssi', $date, 	$time, $time, $duration, 	$time, $time, $duration, 	$id);
 			} else {
-				$stmt->bind_param('ssss', $date, $time, $time, $duration);
+				$stmt->bind_param('sssssss', $date, 	$time, $time, $duration, 	$time, $time, $duration);
 			}
 			$stmt->execute();
 			
@@ -107,6 +84,62 @@
 		
 		return $values;	
 	}
+	
+	function isChangeOfEventDurationPossible($event_id, $duration_new) {
+		$values = null;
+		
+		$connection = getConnection();
+		
+		$sql  = 'SELECT ev.name, TIME_FORMAT(ev.duration, "%H:%i"), per.id, DATE_FORMAT(per.date, "%d.%m.%Y"), TIME_FORMAT(per.time, "%H:%i")';
+		$sql .= ' FROM tbl_performance per';
+		$sql .= ' LEFT JOIN tbl_event ev ON ev.id = per.event_id';
+		
+		$sql .= ' CROSS JOIN (';
+		$sql .= ' SELECT p.id AS p_id, p.date AS p_date, p.time AS "start", ADDTIME(p.time, ?) AS "end"';
+		$sql .= ' FROM tbl_event e';
+		$sql .= ' INNER JOIN tbl_performance p ON p.event_id = e.id';
+		$sql .= ' WHERE e.id = ?';
+		$sql .= ' ORDER BY p.date, p.time) cj';
+		
+		$sql .= ' WHERE cj.p_date = per.date'; 
+		$sql .= ' AND ((cj.start < per.time AND cj.end > TIME(ADDTIME(per.time, (CASE WHEN ev.id = ? THEN ? ELSE ev.duration END))))';
+		$sql .= ' OR cj.start BETWEEN per.time AND TIME(ADDTIME(per.time,(CASE WHEN ev.id = ? THEN ? ELSE ev.duration END)))';
+		$sql .= ' OR cj.end BETWEEN per.time AND TIME(ADDTIME(per.time, (CASE WHEN ev.id = ? THEN ? ELSE ev.duration END))))';
+		$sql .= ' AND per.id <> cj.p_id';
+		$sql .= ' ORDER BY per.date, per.time, ev.name';
+		
+		$stmt = $connection->prepare($sql);
+		if($stmt !== FALSE) {
+			$stmt->bind_param('siisisis', $duration_new, $event_id, 	$event_id, $duration_new,		$event_id, $duration_new,		$event_id, $duration_new);
+			$stmt->execute();
+			
+			$event_name;
+			$event_duration;
+			$performance_id;
+			$performance_date;
+			$performance_time;
+			
+			$stmt->bind_result($event_name, $event_duration, $performance_id, $performance_date, $performance_time);
+			
+			while($stmt->fetch()) {
+				if($values == null) {
+					$values = array();
+				}
+				
+				$values[$performance_id] = array('event_name'=>$event_name, 
+													'event_duration'=>$event_duration, 
+													'performance_date'=>$performance_date, 
+													'performance_time'=>$performance_time);
+			}
+			
+			$stmt->close();
+		}
+		
+		$connection->close();
+		
+		return $values;	
+	}
+	
 	
 	function insertPerformance($bo) {
 		if($bo == null || $bo->getId() > 0) {

@@ -14,6 +14,7 @@
 	include_once('bo/MessageBO.php');
 	include_once('model/DBEvent.php');
 	include_once('model/DBGenre.php');
+	include_once('model/DBPerformance.php');
 	include_once('view/EventOverviewGUI.php');
 	include_once('view/EventDetailGUI.php');
 	include_once('view/EventAlterGUI.php');
