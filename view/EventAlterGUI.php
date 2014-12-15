@@ -35,7 +35,7 @@ function showEventAlterGui($mode, $data, $message, $genres) {
 			<?php getNavMenu(NAVBAR_SELECTION_EVENT); ?>
 		</div>
 		<div class="col-sm-9">
-			<h1 class="page-header">Veranstaltungen</h1>
+			<h1 class="page-header">Veranstaltung</h1>
 <?php
 	if($message != null) {
 ?>
