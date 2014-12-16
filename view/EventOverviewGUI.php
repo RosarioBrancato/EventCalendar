@@ -49,7 +49,7 @@ function showEventOverviewGui($data) {
 ?>
 				<tr>
 					<td class="col-sm-3"><?php echo $bo->getName(); ?></td>
-					<td class="col-sm-6"><?php echo $bo->getDescription(); ?></td>
+					<td class="col-sm-6"><?php if(strlen($bo->getDescription()) > 130) { echo substr($bo->getDescription(), 0, 130) . '...'; } else { echo $bo->getDescription(); } ?></td>
 					<td class="col-sm-2">
 						<form action="Event.php" method="get" class="no-margin">
 							<input type="submit" class="btn btn-info" name="event_detail" value="Details" />
